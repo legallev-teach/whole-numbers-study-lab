@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Whole Numbers Study Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Lexend:wght@400;500;600&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: a sea-blue header band, then one calm column of topic cards; practice opens as one question card at a time. */
+:root{
+  --bg:#F2F6F8; --surface:#FFFFFF; --ink:#152A38; --muted:#526676; --line:#D3DFE6;
+  --band:#0C3B52; --band-ink:#F4FAFC; --band-muted:#A8C8D6;
+  --accent:#F0A020; --accent-ink:#2A1A00; --sea:#0F6E8C;
+  --good:#1B7A4B; --good-bg:#E3F3E9; --bad:#AE3832; --bad-bg:#FBE8E6; --note-bg:#EAF2F7;
+  --t1:#DCEFF6; --t1-ink:#0E5470; --t2:#FDEACB; --t2-ink:#7A4A00; --t3:#FADFE4; --t3-ink:#8C2237; --t4:#DFF1E2; --t4-ink:#215F39;
+  --paper:#FFFEF8; --rule:#C9DCEB; --margin:#E59A9A; --teach:#5B3E8F; --teach-bg:#EFE9F8;
+  --font-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:"Lexend", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1820; --surface:#12242F; --ink:#E6EFF3; --muted:#9DB1BD; --line:#24394A;
+    --band:#08283A; --band-ink:#EAF5F9; --band-muted:#8FB4C5;
+    --accent:#F4B13E; --accent-ink:#241500; --sea:#62BCDA;
+    --good:#5DCB8F; --good-bg:#11301F; --bad:#F28B81; --bad-bg:#3A1B19; --note-bg:#152F3D;
+    --t1:#123848; --t1-ink:#9DD8EC; --t2:#3A2A0C; --t2-ink:#F6CB7A; --t3:#3C1A23; --t3-ink:#F3A6B6; --t4:#153523; --t4-ink:#9EDCB3;
+    --paper:#16262F; --rule:#27445A; --margin:#8A4A4A; --teach:#C7B2F0; --teach-bg:#251C38;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1820; --surface:#12242F; --ink:#E6EFF3; --muted:#9DB1BD; --line:#24394A;
+  --band:#08283A; --band-ink:#EAF5F9; --band-muted:#8FB4C5;
+  --accent:#F4B13E; --accent-ink:#241500; --sea:#62BCDA;
+  --good:#5DCB8F; --good-bg:#11301F; --bad:#F28B81; --bad-bg:#3A1B19; --note-bg:#152F3D;
+  --t1:#123848; --t1-ink:#9DD8EC; --t2:#3A2A0C; --t2-ink:#F6CB7A; --t3:#3C1A23; --t3-ink:#F3A6B6; --t4:#153523; --t4-ink:#9EDCB3;
+  --paper:#16262F; --rule:#27445A; --margin:#8A4A4A; --teach:#C7B2F0; --teach-bg:#251C38;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.55;font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+b{font-weight:600}
+button{font:inherit;color:inherit}
+.gutter{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.col{max-width:720px;margin:0 auto}
+
+/* header band */
+.band{background:var(--band);color:var(--band-ink);position:relative;overflow:hidden}
+.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;opacity:.35;
+  background:repeating-linear-gradient(90deg,var(--band-muted) 0 2px,transparent 2px 24px),
+             repeating-linear-gradient(90deg,var(--band-muted) 0 2px,transparent 2px 120px);
+  background-size:auto 7px, auto 14px;background-repeat:repeat-x;background-position:0 100%,0 100%}
+.band .col{padding-block:28px 34px;display:grid;gap:10px}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--band-muted);font-weight:500}
+.band h1{font-size:clamp(2rem,7vw,2.9rem);font-weight:800;letter-spacing:-.01em;user-select:none;-webkit-user-select:none}
+.band h1 span{color:var(--accent)}
+.band p.lede{max-width:56ch;color:var(--band-ink);opacity:.92}
+
+main .col{padding-block:22px 40px;display:grid;gap:18px}
+
+.howto{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:8px}
+.howto h2{font-size:1.15rem}
+.howto ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+
+.section-label{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.mixed{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center;text-align:left;
+  background:var(--accent);color:var(--accent-ink);border:0;border-radius:16px;padding:18px;cursor:pointer}
+.mixed .sym{grid-row:span 2;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.35);font-family:var(--font-display);font-weight:800;font-size:1.35rem}
+.mixed h3{font-size:1.3rem}
+.mixed p{font-size:.95rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start;text-align:left;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0}
+.card:hover{border-color:var(--sea)}
+.card .sym{grid-row:span 3;min-width:54px;height:54px;padding:0 8px;border-radius:12px;display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:1.05rem;white-space:nowrap}
+.tint1 .sym,.tint1 .ticon{background:var(--t1);color:var(--t1-ink)} .tint2 .sym,.tint2 .ticon{background:var(--t2);color:var(--t2-ink)}
+.tint3 .sym,.tint3 .ticon{background:var(--t3);color:var(--t3-ink)} .tint4 .sym,.tint4 .ticon{background:var(--t4);color:var(--t4-ink)}
+.card h3{font-size:1.1rem}
+.card p{font-size:.9rem;color:var(--muted)}
+.best{font-size:.8rem;font-weight:600;color:var(--good)}
+.progress-btn{display:flex;align-items:center;gap:12px;text-align:left;background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:12px 16px;cursor:pointer}
+.progress-btn .mini-seal{flex:none;width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800}
+.motto{text-align:center;color:var(--muted);font-size:.9rem;padding-top:6px}
+.motto i{font-family:var(--font-display);font-style:normal;font-weight:600;color:var(--ink)}
+
+/* practice screen */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.back{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink);font-size:.95rem}
+.back:hover{border-color:var(--sea)}
+.dots{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.now{background:var(--sea)} .dot.ok{background:var(--good)} .dot.miss{background:var(--accent)}
+.qhead{display:grid;gap:4px}
+.qhead .count{font-size:.85rem;color:var(--muted);font-weight:500}
+.qhead h2{font-size:1.5rem}
+details.remind{background:var(--note-bg);border-radius:12px;padding:10px 14px;min-width:0}
+details.remind summary{cursor:pointer;font-weight:600;color:var(--sea)}
+.remind-body{padding-top:10px;display:grid;gap:10px;min-width:0}
+.example{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:8px;min-width:0}
+.example>b:first-child,.ex-title{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sea);font-weight:600}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:16px;min-width:0}
+.prompt{display:grid;gap:8px;min-width:0}
+.big{font-family:var(--font-display);font-weight:800;font-size:clamp(1.9rem,8vw,2.5rem);letter-spacing:.02em;color:var(--sea)}
+.ix sup{font-size:.68em;font-weight:700;position:relative;top:-.1em;margin-left:.05em;color:var(--accent)}
+.big .ix sup{font-size:.5em;top:-.15em}
+.step{display:grid;gap:10px;border-top:1px dashed var(--line);padding-top:14px;min-width:0}
+.step:first-child{border-top:0;padding-top:0}
+.step-q{font-weight:500}
+.answer-row{display:flex;gap:10px;flex-wrap:wrap}
+.answer-row input,.field input,.field select{flex:1 1 160px;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;border-radius:10px;
+  border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.answer-row input:focus,.field input:focus,.field select:focus{outline:none;border-color:var(--sea)}
+.btn{border:0;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.secondary{background:var(--note-bg);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.choices{display:grid;gap:8px}
+.choice{text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer}
+.choice:hover:not(:disabled){border-color:var(--sea)}
+.choice.right{border-color:var(--good);background:var(--good-bg)}
+.choice.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.choice:disabled{cursor:default}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px}
+.tile{border:2px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 0;font-size:1.1rem;font-weight:600;cursor:pointer;text-align:center}
+.tile[aria-pressed="true"]{background:var(--t1);border-color:var(--sea);color:var(--t1-ink)}
+.tile.right{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+.tile.missed{border-color:var(--good);border-style:dashed}
+.tile.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+/* circling: the chosen numbers get a ring, like a pen circle in the exercise book */
+.crow{display:grid;gap:6px}
+.crow-label{font-weight:600;font-size:.95rem}
+.crow .tile{border-radius:999px}
+.crow .tile[aria-pressed="true"]{background:var(--surface);color:var(--ink);border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.crow .tile.right{box-shadow:0 0 0 2px var(--good)}
+.circ{display:inline-grid;place-items:center;min-width:1.9em;padding:0 .3em;border:2px solid var(--accent);border-radius:999px;font-weight:600;line-height:1.5}
+.listline{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center}
+.listline .lbl{font-weight:600;margin-right:4px}
+.listline .cm{margin-left:-5px}
+.fb{border-radius:12px;padding:12px 14px}
+.fb>p,.fb>div,.fb>ul{margin-top:8px}
+.fb.good{background:var(--good-bg)} .fb.good>b:first-child{color:var(--good)}
+.fb.bad{background:var(--bad-bg)} .fb.bad>b:first-child{color:var(--bad)}
+.fb.note{background:var(--note-bg)}
+.fb .again{font-weight:600}
+.fb .reveal{border-top:1px solid var(--line);padding-top:8px;display:grid;gap:8px}
+.fb ul{margin-bottom:0;padding-left:1.2em}
+.next-row{display:flex;justify-content:flex-end}
+
+/* place value chart */
+.pv{overflow-x:auto}
+.pv table{border-collapse:collapse;margin-top:4px}
+.pv th,.pv td{border:1px solid var(--line);padding:4px 8px;text-align:center;min-width:2.4em}
+.pv th{font-size:.75rem;color:var(--muted);font-weight:600}
+.pv td{font-weight:600;font-size:1.1rem;background:var(--surface)}
+.pv td.hit{background:var(--accent);color:var(--accent-ink)}
+.small{font-size:.85rem;color:var(--muted)}
+
+/* number line */
+.nline{position:relative;height:58px;margin:4px 14px 0}
+.nline .axis{position:absolute;left:0;right:0;top:22px;height:2px;background:var(--ink)}
+.nline .tick{position:absolute;top:15px;width:2px;height:16px;background:var(--ink)}
+.nline .lab{position:absolute;top:36px;transform:translateX(-50%);font-size:.8rem;white-space:nowrap}
+.nline .mid{background:var(--muted)} .nline .lab.midl{color:var(--muted)}
+.nline .mark{position:absolute;top:8px;width:14px;height:14px;border-radius:50%;background:var(--accent);transform:translateX(-50%);border:2px solid var(--accent-ink)}
+
+/* dot squares: spaced dots, rows in two colours so each row is easy to count */
+.sqwrap{display:grid;gap:6px;justify-items:start}
+.sqgrid{display:grid;gap:8px;width:max-content;max-width:100%;padding:8px;border:1px dashed var(--line);border-radius:8px}
+.sqgrid span{width:13px;height:13px;border-radius:50%;background:var(--sea)}
+.sqgrid span.r1{background:var(--accent)}
+.sqgrid.dense{gap:5px}.sqgrid.dense span{width:10px;height:10px}
+
+/* diagrams */
+.diagram{width:100%;max-width:340px;height:auto;display:block}
+.diagram .d-ink{fill:var(--ink)}
+.diagram .d-muted{fill:var(--muted)}
+.diagram .d-sea{fill:var(--sea)}
+.diagram .d-acc{fill:var(--accent)}
+.diagram .d-line{stroke:var(--muted);stroke-width:2;fill:none}
+.diagram .d-sea-line{stroke:var(--sea);stroke-width:2.5;fill:none}
+.diagram .d-acc-line{stroke:var(--accent);stroke-width:2.5;fill:none}
+.diagram .d-node{fill:var(--surface);stroke:var(--sea);stroke-width:2.5}
+.diagram text{font-family:var(--font-body)}
+.diagram .d-big{font-family:var(--font-display);font-weight:800}
+
+/* factor tree */
+.tree-scroll{overflow-x:auto;padding:4px 0 8px}
+.tree-inner{width:max-content;margin:0 auto;padding:0 4px}
+.tnode{display:flex;flex-direction:column;align-items:center;position:relative}
+.tkids{display:flex;gap:14px;padding-top:12px;position:relative;align-items:flex-start}
+.tkids::before{content:"";position:absolute;top:0;left:50%;width:2px;height:12px;background:var(--muted);transform:translate(-50%,-12px)}
+.tkids>.tnode{padding-top:12px}
+.tkids>.tnode::before{content:"";position:absolute;top:0;left:50%;width:2px;height:12px;background:var(--muted);transform:translateX(-50%)}
+.tkids>.tnode:first-child::after{content:"";position:absolute;top:0;left:50%;right:-7px;border-top:2px solid var(--muted)}
+.tkids>.tnode:last-child::after{content:"";position:absolute;top:0;left:-7px;right:50%;border-top:2px solid var(--muted)}
+.tchip{min-width:52px;height:44px;padding:0 10px;border-radius:22px;border:2px solid var(--line);background:var(--bg);font-weight:600;font-size:1.05rem}
+span.tchip{display:inline-grid;place-items:center}
+.tchip.open{border:2px dashed var(--accent);cursor:pointer;background:var(--surface)}
+.tchip.open.active{background:var(--accent);color:var(--accent-ink);border-style:solid}
+.tchip.prime{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.tchip.split{color:var(--muted)}
+.split-form{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.split-form input{width:5.2em;font:inherit;font-size:1.1rem;padding:8px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);text-align:center}
+.split-form input:focus{outline:none;border-color:var(--sea)}
+
+/* exercise book for find-the-fault */
+.book{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 14px 10px 44px;position:relative;
+  background-image:repeating-linear-gradient(var(--paper) 0 35px,var(--rule) 35px 36px);
+  font-family:"Patrick Hand","Segoe Print","Bradley Hand",cursive;font-size:1.25rem;line-height:36px}
+.book::before{content:"";position:absolute;top:0;bottom:0;left:30px;border-left:2px solid var(--margin)}
+.book .ln{display:block;position:relative}
+.book .ln::before{content:attr(data-n);position:absolute;left:-36px;width:22px;text-align:right;color:var(--muted);font-family:var(--font-body);font-size:.75rem}
+.task{font-weight:500}
+
+/* results and badge */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:14px;text-align:center;justify-items:center}
+.result .score{font-family:var(--font-display);font-weight:800;font-size:3.2rem;color:var(--sea);line-height:1}
+.btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.badge-panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;min-width:0}
+.badge-panel h2{font-size:1.25rem}
+.fields{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+@media (max-width:420px){.fields{grid-template-columns:1fr}}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:.85rem;font-weight:600;color:var(--muted)}
+.badge{border-radius:14px;overflow:hidden;border:2px solid var(--accent);background:var(--surface);max-width:460px;width:100%;justify-self:center}
+.badge-top{background:var(--band);color:var(--band-ink);padding:12px 16px;display:grid;gap:2px}
+.badge-top b{font-family:var(--font-display);font-size:1.2rem;font-weight:800}
+.badge-top b span{color:var(--accent)}
+.badge-top small{color:var(--band-muted);font-size:.8rem}
+.badge-body{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:16px}
+.seal{width:68px;height:68px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:2rem;font-weight:800;
+  box-shadow:0 0 0 4px var(--surface),0 0 0 6px var(--accent)}
+.b-name{font-family:var(--font-display);font-weight:800;font-size:1.3rem}
+.b-meta{font-size:.85rem;color:var(--muted)}
+.b-title{font-weight:600;margin-top:4px}
+.b-lines{font-size:.92rem}
+.b-lines p{margin:0}
+.badge-actions{display:grid;gap:10px}
+.copybox{width:100%;font:inherit;font-size:.9rem;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:5em}
+.email-line{font-size:.95rem}
+.email-line a{color:var(--sea);font-weight:600}
+.addr{font-weight:600;user-select:all;-webkit-user-select:all}
+
+/* teacher view */
+.teacher-bar{background:var(--teach-bg);border:2px solid var(--teach);border-radius:14px;padding:14px 16px;display:grid;gap:10px}
+.teacher-bar h2{color:var(--teach);font-size:1.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.85rem;color:var(--ink);text-decoration:none}
+.t-topic{display:grid;gap:12px;scroll-margin-top:12px}
+.t-topic>h2{font-size:1.45rem;border-bottom:2px solid var(--line);padding-bottom:6px}
+.t-q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:12px;min-width:0}
+.t-q .tag{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teach);font-weight:600}
+.t-step{display:grid;gap:8px;border-top:1px dashed var(--line);padding-top:10px;min-width:0}
+.ans{background:var(--good-bg);border-radius:8px;padding:6px 10px}
+.ans b{color:var(--good)}
+.opt{display:grid;gap:2px;padding:6px 10px;border-radius:8px;border:1px solid var(--line)}
+.opt.ok{border-color:var(--good);background:var(--good-bg)}
+.opt .why{font-size:.85rem;color:var(--muted)}
+.explain{font-size:.95rem;display:grid;gap:8px;min-width:0}
+
+.card .sym svg,.ticon svg{width:34px;height:34px}
+.ticon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;flex:none}
+.qhead{display:flex;gap:12px;align-items:center}
+.qhead .qtext{display:grid;gap:2px}
+.arrs{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;overflow-x:auto;padding-bottom:2px}
+.arr{display:grid;gap:5px;justify-items:center}
+.arr .ad{display:grid;gap:4px}
+.arr .ad span{width:9px;height:9px;border-radius:50%;background:var(--sea)}
+.arr.alt .ad span{background:var(--accent)}
+.arr .al{font-size:.8rem;color:var(--muted);font-weight:600}
+.groups{display:flex;flex-wrap:wrap;gap:8px}
+.grp{display:grid;justify-items:center;border-radius:10px;padding:6px 14px;gap:2px}
+.grp .gd{font-family:var(--font-display);font-weight:800;font-size:1.6rem;letter-spacing:.08em}
+.grp .gl{font-size:.75rem;font-weight:600}
+.g0{background:var(--t1);color:var(--t1-ink)} .g1{background:var(--t2);color:var(--t2-ink)} .g2{background:var(--t4);color:var(--t4-ink)}
+.diagram .d-ring{stroke:var(--accent);stroke-width:2.5;fill:none}
+.diagram .d-dash{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 4;fill:none}
+.diagram .d-axis{stroke:var(--ink);stroke-width:2;fill:none}
+.diagram .d-bar{fill:var(--t1);stroke:var(--sea);stroke-width:2}
+.ticket-strip{background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:14px 16px;display:grid;gap:10px}
+.ticket-strip h2{font-size:1.15rem;display:flex;align-items:center;gap:8px}
+.segs{display:grid;grid-template-columns:repeat(9,1fr);gap:4px}
+.segs span{height:10px;border-radius:5px;background:var(--line)}
+.segs span.on{background:var(--good)}
+.todo{font-size:.85rem;color:var(--muted)}
+.tcode{font-family:var(--font-display);font-weight:800;font-size:2rem;letter-spacing:.12em;color:var(--sea);user-select:all;-webkit-user-select:all}
+.backup{background:var(--note-bg);border-radius:12px;padding:12px 14px;display:grid;gap:6px}
+.backup ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.callout{background:var(--good-bg);border-radius:14px;padding:14px 16px;display:grid;gap:10px;justify-items:start}
+.warn{background:var(--t2);color:var(--t2-ink);border-radius:12px;padding:10px 14px;font-size:.9rem}
+.chk-wrap{overflow-x:auto}
+.chk-table{border-collapse:collapse;width:100%;font-size:.9rem}
+.chk-table th,.chk-table td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.chk-table td.ok{color:var(--good);font-weight:600}
+.chk-table td.no{color:var(--bad);font-weight:600}
+.chk-sum{font-weight:600}
+textarea.bulk{width:100%;min-height:8em;font:inherit;font-size:.85rem;padding:8px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+@media (prefers-reduced-motion: no-preference){
+  .step,.fb{animation:rise .25s ease-out}
+  @keyframes rise{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}
+}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="col gutter">
+    <p class="eyebrow">Form 1 Mathematics · Quiz 1 revision · Mr. Legall</p>
+    <h1 id="title">Whole Numbers <span>Study Lab</span></h1>
+    <p class="lede">Quiz 1 is this week. Practise one topic at a time, or try the mixed practice. You get new numbers every time you play.</p>
+  </div>
+</header>
+<main id="app"></main>
+
+<script>
+/* Settings Mr. Legall can change */
+const TEACHER_NAME='Mr. Legall';
+const TEACHER_EMAIL='a.legall@cuc.edu.tt';
+const CLASSES=['1A','1B','1C'];
+/* Ticket settings */
+const TICKET_CLOSES=new Date('2026-10-23T17:00:00-04:00'); /* tickets close at 5:00 p.m. on Friday, Trinidad time */
+const TICKET_CLOSES_TEXT='5:00 p.m. on Friday 23 October';
+const FORM_URL='https://docs.google.com/forms/d/e/1FAIpQLSdCgFuxr-4U2jtsLasS_tnjqARXS8d_AqDlW5DwQOxQqOj0uQ/viewform'; /* the Google Form address ending in /viewform */
+const FORM_FIELDS={name:'entry.1746085561',cls:'entry.594385923',code:'entry.38703396',topics:'entry.1860845281'}; /* entry numbers from the Form's pre-filled link */
+const TICKET_SALT='cucss-wnsl-2026-quiz1';
+
+/* ---------- helpers ---------- */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const NB=' ';
+const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,NB);
+const parseNum=s=>{const t=String(s).replace(/[\s,  ]/g,'');return /^\d+$/.test(t)?Number(t):NaN;};
+const parseList=s=>String(s).split(/[,;\s]+/).filter(Boolean).map(x=>/^\d+$/.test(x)?Number(x):NaN);
+const isPrime=n=>{if(n<2)return false;for(let i=2;i*i<=n;i++)if(n%i===0)return false;return true;};
+const factorsOf=n=>{const f=[];for(let i=1;i<=n;i++)if(n%i===0)f.push(i);return f;};
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const sup=n=>String(n).split('').map(c=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[c]).join('');
+const indexForm=ps=>{const c={};ps.forEach(p=>c[p]=(c[p]||0)+1);return Object.keys(c).map(Number).sort((a,b)=>a-b).map(p=>c[p]>1?p+sup(c[p]):String(p)).join(' × ');};
+const smallestFactor=n=>{for(let i=2;i*i<=n;i++)if(n%i===0)return i;return n;};
+const ix=(b,i)=>'<span class="ix">'+b+'<sup>'+(i||2)+'</sup></span>';
+const circ=v=>'<span class="circ">'+v+'</span>';
+let uid=0;
+
+const ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+function under1000(x){let s='';const h=Math.floor(x/100),r=x%100;if(h)s+=ONES[h]+' hundred';if(r){if(h)s+=' and ';s+=r<20?ONES[r]:TENS[Math.floor(r/10)]+(r%10?'-'+ONES[r%10]:'');}return s;}
+function words(n){
+  if(n===0)return 'Zero';
+  const m=Math.floor(n/1e6),t=Math.floor(n/1000)%1000,r=n%1000;const g=[];
+  if(m)g.push(under1000(m)+' million');if(t)g.push(under1000(t)+' thousand');
+  let s;
+  if(r&&r<100&&g.length)s=g.join(', ')+' and '+under1000(r);
+  else{if(r)g.push(under1000(r));s=g.join(', ');}
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
+
+/* ---------- pictures ---------- */
+const PLACE=['ones','tens','hundreds','thousands','ten thousands','hundred thousands','millions'];
+const PLACE_SHORT=['O','T','H','Th','TTh','HTh','M'];
+function pvChart(N,hitPos){
+  const s=String(N).padStart(7,' ');let h='<div class="pv"><table><tr>';
+  for(let k=6;k>=0;k--)h+='<th>'+PLACE_SHORT[k]+'</th>';h+='</tr><tr>';
+  for(let k=6;k>=0;k--){const c=s[6-k];h+='<td'+(k===hitPos?' class="hit"':'')+'>'+(c===' '?'':c)+'</td>';}
+  return h+'</tr></table></div><p class="small">M = millions, HTh = hundred thousands, TTh = ten thousands, Th = thousands, H = hundreds, T = tens, O = ones</p>';
+}
+function numberLine(L,U,N){
+  const M=(L+U)/2,pos=x=>((x-L)/(U-L)*100).toFixed(2)+'%';
+  return '<div class="nline" aria-hidden="true"><div class="axis"></div>'+
+    '<div class="tick" style="left:0"></div><div class="tick mid" style="left:50%"></div><div class="tick" style="left:calc(100% - 2px)"></div>'+
+    '<div class="lab" style="left:0">'+fmt(L)+'</div><div class="lab midl" style="left:50%">'+fmt(M)+'</div><div class="lab" style="left:100%">'+fmt(U)+'</div>'+
+    '<div class="mark" style="left:'+pos(N)+'"></div></div>';
+}
+function dotSquare(n){
+  if(n>12)return '';
+  const dense=n>9;const size=dense?10:13;
+  let h='<div class="sqwrap"><div class="sqgrid'+(dense?' dense':'')+'" role="img" aria-label="'+n+' rows of '+n+' dots" style="grid-template-columns:repeat('+n+','+size+'px)">';
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++)h+='<span class="r'+(r%2)+'"></span>';
+  return h+'</div><p class="small">'+n+' rows of '+n+' dots make a square. '+n+' × '+n+' = '+(n*n)+' dots.</p></div>';
+}
+function arrowMarker(id,cls){return '<marker id="'+id+'" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="'+cls+'"/></marker>';}
+function indexDiagram(b,i){
+  i=i||2;const L=String(b).length;const id='ar'+(++uid);const bx=150-19*L;
+  return '<svg class="diagram" viewBox="0 0 345 125" role="img" aria-label="'+b+' squared in index form: '+b+' is the base, '+i+' is the index">'+
+    '<defs>'+arrowMarker(id,'d-acc')+arrowMarker(id+'b','d-sea')+'</defs>'+
+    '<text x="150" y="85" text-anchor="end" font-size="64" class="d-big d-sea">'+b+'</text>'+
+    '<text x="155" y="45" font-size="30" class="d-big d-acc">'+i+'</text>'+
+    '<line x1="224" y1="32" x2="182" y2="32" class="d-acc-line" marker-end="url(#'+id+')"/>'+
+    '<text x="230" y="37" font-size="17" font-weight="600" class="d-ink">index</text>'+
+    '<text x="230" y="56" font-size="12" class="d-muted">small and raised</text>'+
+    '<line x1="'+bx+'" y1="106" x2="'+bx+'" y2="92" class="d-sea-line" marker-end="url(#'+id+'b)"/>'+
+    '<text x="'+bx+'" y="122" text-anchor="middle" font-size="15" font-weight="600" class="d-ink">base</text>'+
+    '</svg>';
+}
+function reverseDiagram(m){
+  const id='rv'+(++uid);const sq=m*m;
+  return '<svg class="diagram" viewBox="0 0 320 170" role="img" aria-label="'+m+' squared is '+sq+', and the square root of '+sq+' is '+m+'">'+
+    '<defs>'+arrowMarker(id,'d-acc')+arrowMarker(id+'b','d-sea')+'</defs>'+
+    '<path d="M 82 62 Q 160 0 238 62" class="d-acc-line" marker-end="url(#'+id+')"/>'+
+    '<text x="160" y="22" text-anchor="middle" font-size="14" font-weight="600" class="d-ink">square it: '+m+' × '+m+'</text>'+
+    '<path d="M 238 108 Q 160 170 82 108" class="d-sea-line" marker-end="url(#'+id+'b)"/>'+
+    '<text x="160" y="164" text-anchor="middle" font-size="14" font-weight="600" class="d-ink">square root: √'+sq+'</text>'+
+    '<circle cx="60" cy="85" r="30" class="d-node"/><text x="60" y="94" text-anchor="middle" font-size="26" class="d-big d-ink">'+m+'</text>'+
+    '<circle cx="260" cy="85" r="30" class="d-node"/><text x="260" y="94" text-anchor="middle" font-size="'+(sq>99?20:26)+'" class="d-big d-ink">'+sq+'</text>'+
+    '</svg>';
+}
+function autoTree(n){
+  if(isPrime(n))return {v:n,kids:null};
+  let a=1;for(let i=2;i*i<=n;i++)if(n%i===0)a=i;
+  return {v:n,kids:[autoTree(a),autoTree(n/a)]};
+}
+function treeLeaves(nd){return nd.kids?treeLeaves(nd.kids[0]).concat(treeLeaves(nd.kids[1])):[nd.v];}
+function treeHTML(nd){
+  const node=x=>{
+    if(x.kids)return '<div class="tnode"><span class="tchip split">'+x.v+'</span><div class="tkids">'+node(x.kids[0])+node(x.kids[1])+'</div></div>';
+    return '<div class="tnode"><span class="tchip prime">'+x.v+'</span></div>';};
+  return '<div class="tree-scroll"><div class="tree-inner">'+node(nd)+'</div></div>';
+}
+function bookHTML(lines){return '<div class="book">'+lines.map((l,i)=>'<span class="ln" data-n="'+(i+1)+'">'+l+'</span>').join('')+'</div>';}
+function listLine(label,vals,ringed){return '<div class="listline"><span class="lbl">'+label+'</span>'+vals.map(v=>ringed&&ringed.includes(v)?circ(v):'<span>'+v+'</span>').join('<span class="cm">,</span>')+'</div>';}
+
+const ICONS={
+ place:'<rect x="3" y="7" width="12" height="12" rx="1"/><path d="M7 7v12M11 7v12M3 11h12M3 15h12" stroke-width="1.2"/><rect x="18" y="7" width="4" height="12" rx="1"/><path d="M18 11h4M18 15h4" stroke-width="1.2"/><rect x="25" y="15" width="4" height="4" rx="1"/><path d="M3 25h26" stroke-width="1.5"/>',
+ round:'<path d="M3 25h26"/><path d="M6 22v6M26 22v6"/><circle cx="19" cy="25" r="2.2" fill="currentColor"/><path d="M19 20c1-7 6-8 7-3"/><path d="M23.5 15.5l2.5 2.5 2-3"/>',
+ estimate:'<path d="M8 5h16v4H8z"/><path d="M10 9v15a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9"/><g fill="currentColor" stroke="none"><circle cx="14" cy="15" r="1.6"/><circle cx="18" cy="15" r="1.6"/><circle cx="16" cy="19" r="1.6"/><circle cx="13.5" cy="23" r="1.6"/><circle cx="18.5" cy="23" r="1.6"/></g>',
+ factors:'<g fill="currentColor" stroke="none"><rect x="5" y="8" width="4.5" height="4.5" rx="1"/><rect x="11" y="8" width="4.5" height="4.5" rx="1"/><rect x="17" y="8" width="4.5" height="4.5" rx="1"/><rect x="23" y="8" width="4.5" height="4.5" rx="1"/><rect x="5" y="14" width="4.5" height="4.5" rx="1"/><rect x="11" y="14" width="4.5" height="4.5" rx="1"/><rect x="17" y="14" width="4.5" height="4.5" rx="1"/><rect x="23" y="14" width="4.5" height="4.5" rx="1"/><rect x="5" y="20" width="4.5" height="4.5" rx="1"/><rect x="11" y="20" width="4.5" height="4.5" rx="1"/><rect x="17" y="20" width="4.5" height="4.5" rx="1"/><rect x="23" y="20" width="4.5" height="4.5" rx="1"/></g>',
+ primes:'<rect x="1.5" y="10.5" width="29" height="11" rx="5.5"/><g fill="currentColor" stroke="none"><circle cx="7" cy="16" r="2"/><circle cx="12.5" cy="16" r="2"/><circle cx="18" cy="16" r="2"/><circle cx="23.5" cy="16" r="2"/></g><path d="M9 27h14" stroke-width="1.5"/>',
+ squares:'<g fill="currentColor" stroke="none"><circle cx="6" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="18" cy="12" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="12" cy="18" r="2.2"/><circle cx="18" cy="18" r="2.2"/><circle cx="6" cy="24" r="2.2"/><circle cx="12" cy="24" r="2.2"/><circle cx="18" cy="24" r="2.2"/><text x="22" y="11" font-size="11" font-weight="800" font-family="Lexend, sans-serif">2</text></g>',
+ trees:'<circle cx="16" cy="6" r="3"/><path d="M14 8.5l-4 5M18 8.5l4 5"/><circle cx="9" cy="16" r="3" fill="currentColor"/><circle cx="23" cy="16" r="3"/><path d="M21.5 18.5l-2.5 4.5M24.5 18.5l2.5 4.5"/><circle cx="18" cy="26" r="3" fill="currentColor"/><circle cx="28" cy="26" r="2.6" fill="currentColor"/>',
+ hcf:'<rect x="3" y="7" width="7" height="6" rx="2" stroke-width="1.5"/><rect x="13" y="7" width="7" height="6" rx="2" stroke-width="1.5"/><rect x="23" y="7" width="6" height="6" rx="2" stroke-width="1.5"/><rect x="3" y="19" width="7" height="6" rx="2" stroke-width="1.5"/><rect x="13" y="19" width="7" height="6" rx="2" stroke-width="1.5"/><rect x="23" y="19" width="6" height="6" rx="2" stroke-width="1.5"/><rect x="10.5" y="3.5" width="12" height="25" rx="6"/>',
+ fault:'<circle cx="13" cy="13" r="8.5"/><path d="M19.5 19.5L28 28"/><path d="M10 10l6 6M16 10l-6 6"/>'};
+const icon=id=>'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[id]+'</svg>';
+
+/* reading big numbers in groups of three */
+function groupsHTML(N){
+  const m=Math.floor(N/1e6),t=Math.floor(N/1000)%1000,r=N%1000;const g=[];
+  if(m)g.push([String(m),'say “million”']);
+  g.push([m?String(t).padStart(3,'0'):String(t),'say “thousand”']);
+  g.push([String(r).padStart(3,'0'),'read it as it is']);
+  return '<div class="groups">'+g.map((x,i)=>'<div class="grp g'+(g.length===3?i:i+1)+'"><span class="gd">'+x[0]+'</span><span class="gl">'+x[1]+'</span></div>').join('')+'</div>';
+}
+/* arrays of dots: a rectangle of r rows and c columns */
+function arrayHTML(r,c,alt){let h='<div class="arr'+(alt?' alt':'')+'"><div class="ad" style="grid-template-columns:repeat('+c+',9px)">';for(let i=0;i<r*c;i++)h+='<span></span>';return h+'</div><span class="al">'+r+' × '+c+'</span></div>';}
+function arraysHTML(pairs){return '<div class="arrs" role="img" aria-label="Dot arrays: '+pairs.map(p=>p[0]+' by '+p[1]).join(', ')+'">'+pairs.map((p,i)=>arrayHTML(p[0],p[1],i%2)).join('')+'</div>';}
+/* factor rainbow: arcs join each pair of factors */
+function rainbow(N){
+  const fs=factorsOf(N),k=fs.length,W=340,m=16,step=(W-2*m)/(k-1),xs=fs.map((_,i)=>m+i*step);
+  const arcs=[];let maxR=0;
+  for(let i=0;i<Math.floor(k/2);i++){const x1=xs[i],x2=xs[k-1-i],rx=(x2-x1)/2,ry=Math.max(12,rx*.55);maxR=Math.max(maxR,ry);arcs.push([x1,x2,rx,ry,i]);}
+  const base=maxR+12,fsz=k>10?12:13;
+  let h='<svg class="diagram" viewBox="0 0 '+W+' '+(base+30)+'" role="img" aria-label="Factor rainbow for '+N+'">';
+  arcs.forEach(a=>{h+='<path d="M '+a[0].toFixed(1)+' '+base+' A '+a[2].toFixed(1)+' '+a[3].toFixed(1)+' 0 0 1 '+a[1].toFixed(1)+' '+base+'" class="'+(a[4]%2?'d-acc-line':'d-sea-line')+'"/>';});
+  if(k%2)h+='<circle cx="'+xs[(k-1)/2].toFixed(1)+'" cy="'+(base+15)+'" r="12" class="d-ring"/>';
+  fs.forEach((f,i)=>{h+='<text x="'+xs[i].toFixed(1)+'" y="'+(base+20)+'" text-anchor="middle" font-size="'+fsz+'" font-weight="600" class="d-ink">'+f+'</text>';});
+  h+='</svg>';
+  const ex=k>2?' For example, '+fs[1]+' × '+fs[k-2]+' = '+N+'.':'';
+  return h+'<p class="small">This is a factor rainbow. Each arc joins two factors that multiply to make '+N+'.'+ex+(k%2?' The circled number is multiplied by itself.':'')+'</p>';
+}
+/* skip-counting hops on a number line */
+function hops(stepN,count){
+  const W=340,m=18,max=stepN*count,sc=(W-2*m)/max,X=v=>(m+v*sc).toFixed(1),y=62;const id='hp'+(++uid);
+  let h='<svg class="diagram" viewBox="0 0 '+W+' 96" role="img" aria-label="Counting in '+stepN+'s"><defs>'+arrowMarker(id,'d-sea')+'</defs><line x1="'+m+'" y1="'+y+'" x2="'+(W-m)+'" y2="'+y+'" class="d-axis"/>';
+  for(let i=0;i<=count;i++){const v=i*stepN;h+='<line x1="'+X(v)+'" y1="'+(y-6)+'" x2="'+X(v)+'" y2="'+(y+6)+'" class="d-axis"/><text x="'+X(v)+'" y="'+(y+24)+'" text-anchor="middle" font-size="13" font-weight="600" class="d-ink">'+v+'</text>';
+    if(i<count){const a=X(v),b=X(v+stepN),mid=((+a)+(+b))/2;h+='<path d="M '+a+' '+(y-8)+' Q '+mid+' '+(y-40)+' '+b+' '+(y-10)+'" class="d-sea-line" marker-end="url(#'+id+')"/><text x="'+mid+'" y="'+(y-30)+'" text-anchor="middle" font-size="11" class="d-muted">+'+stepN+'</text>';}}
+  return h+'</svg>';
+}
+/* double number line: hops of a on top, hops of b below, meeting at the LCM */
+function doubleHops(a,b){
+  const L=a*b/gcd(a,b),W=340,m=18,sc=(W-2*m)/L,X=v=>(m+v*sc).toFixed(1),y1=50,y2=118;
+  let h='<svg class="diagram" viewBox="0 0 '+W+' 160" role="img" aria-label="Counting in '+a+'s and '+b+'s meets at '+L+'">';
+  const line=(stepN,y,cls,up)=>{let s='<line x1="'+m+'" y1="'+y+'" x2="'+(W-m)+'" y2="'+y+'" class="d-axis"/><text x="'+m+'" y="'+(up?y-30:y+40)+'" font-size="12" font-weight="600" class="d-muted">Count in '+stepN+'s</text>';
+    for(let v=0;v<=L;v+=stepN){s+='<line x1="'+X(v)+'" y1="'+(y-6)+'" x2="'+X(v)+'" y2="'+(y+6)+'" class="d-axis"/><text x="'+X(v)+'" y="'+(y+20)+'" text-anchor="middle" font-size="12" font-weight="600" class="d-ink">'+v+'</text>';
+      if(v<L){const p=X(v),q=X(v+stepN),mid=((+p)+(+q))/2;s+='<path d="M '+p+' '+(y-7)+' Q '+mid+' '+(y-26)+' '+q+' '+(y-7)+'" class="'+cls+'"/>';}}
+    return s;};
+  h+=line(a,y1,'d-sea-line',true)+line(b,y2,'d-acc-line',false);
+  h+='<line x1="'+X(L)+'" y1="'+(y1-20)+'" x2="'+X(L)+'" y2="'+(y2+28)+'" class="d-dash"/><circle cx="'+X(L)+'" cy="'+(y1+16)+'" r="11" class="d-ring"/><circle cx="'+X(L)+'" cy="'+(y2+16)+'" r="11" class="d-ring"/>';
+  return h+'</svg><p class="small">Counting in '+a+'s and counting in '+b+'s first land on the same number at <b>'+L+'</b>. That is the LCM.</p>';
+}
+/* sharing vs lining up, for HCF or LCM word problems */
+function splitOrLineUp(){
+  const id='sl'+(++uid);
+  return '<svg class="diagram" viewBox="0 0 340 130" role="img" aria-label="Splitting into equal pieces needs the HCF. Lining up again needs the LCM."><defs>'+arrowMarker(id,'d-acc')+'</defs>'+
+   '<text x="80" y="18" text-anchor="middle" font-size="13" font-weight="700" class="d-ink">Split into equal pieces</text>'+
+   '<rect x="12" y="34" width="136" height="26" rx="4" class="d-bar"/>'+[46,80,114].map(x=>'<line x1="'+x+'" y1="34" x2="'+x+'" y2="60" class="d-sea-line"/>').join('')+
+   '<text x="80" y="92" text-anchor="middle" font-size="22" font-weight="800" class="d-big d-sea">HCF</text>'+
+   '<text x="80" y="114" text-anchor="middle" font-size="11" class="d-muted">sharing, cutting, grouping</text>'+
+   '<text x="258" y="18" text-anchor="middle" font-size="13" font-weight="700" class="d-ink">Line up again</text>'+
+   '<line x1="190" y1="40" x2="326" y2="40" class="d-axis"/><line x1="190" y1="62" x2="326" y2="62" class="d-axis"/>'+
+   '<path d="M190 38 Q207 26 224 38 M224 38 Q241 26 258 38 M258 38 Q275 26 292 38" class="d-sea-line"/>'+
+   '<path d="M190 64 Q241 82 292 64" class="d-acc-line"/>'+
+   '<line x1="292" y1="28" x2="292" y2="74" class="d-dash"/>'+
+   '<text x="258" y="98" text-anchor="middle" font-size="22" font-weight="800" class="d-big d-acc">LCM</text>'+
+   '<text x="258" y="118" text-anchor="middle" font-size="11" class="d-muted">waiting to meet again</text></svg>';
+}
+
+/* ---------- question makers ---------- */
+function pv1(){
+  let d;do{d=shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,7);}while(d[0]===0);
+  const N=Number(d.join(''));
+  const p=pick([1,2,3,4,5,6].filter(k=>d[6-k]!==0));const dig=d[6-p];const val=dig*10**p;
+  return {topic:'place',prompt:'<p>Look at this number:</p><p class="big">'+fmt(N)+'</p>',
+    steps:[{type:'input',label:'What is the <b>value</b> of the digit '+dig+'? Do not just write the digit. Write what it is worth.',answer:val,
+      wrong:v=>{
+        if(v===dig)return 'You wrote the digit itself. The question asks what the '+dig+' is <b>worth</b> in this number.';
+        for(let k=0;k<=6;k++)if(k!==p&&v===dig*10**k)return 'That would be its value if the '+dig+' were in the <b>'+PLACE[k]+'</b> place. Count the places again, starting from the right: ones, tens, hundreds, thousands, ten thousands, hundred thousands, millions.';
+        return 'Find the '+dig+' in the number. Work out which place it is in. Its value is '+dig+' multiplied by what that place is worth.';},
+      explain:'The '+dig+' is in the <b>'+PLACE[p]+'</b> place, so its value is '+dig+' × '+fmt(10**p)+' = <b>'+fmt(val)+'</b>.'+pvChart(N,p)}]};
+}
+function pv2(){
+  let d,vars;
+  for(;;){
+    d=[ri(1,9)];for(let i=1;i<7;i++)d.push(ri(1,9));
+    const zs=shuffle([1,2,3,4,5,6]);const z1=zs[0];const z2=zs.slice(1).find(z=>Math.abs(z-z1)>1);
+    d[z1]=0;d[z2]=0;
+    const N=Number(d.join(''));const set=new Set();
+    [z1,z2].forEach(z=>[z-1,z+1].forEach(o=>{if(o<0||o>6||d[o]===0)return;const e=d.slice();[e[z],e[o]]=[e[o],e[z]];if(e[0]===0)return;const V=Number(e.join(''));if(V!==N)set.add(V);}));
+    vars=shuffle([...set]).slice(0,3);if(vars.length===3)break;
+  }
+  const N=Number(d.join(''));const m=Math.floor(N/1e6),t=Math.floor(N/1000)%1000,r=N%1000;
+  const groups='Split '+fmt(N)+' into groups of three, starting from the right: <b>'+m+'</b> | <b>'+String(t).padStart(3,'0')+'</b> | <b>'+String(r).padStart(3,'0')+'</b>. Read the first group and say "million". Read the next group and say "thousand". Then read the last group.';
+  const opts=shuffle([{text:words(N),correct:true,why:''}].concat(vars.map(V=>({text:words(V),correct:false,why:'That option is the number '+fmt(V)+', not '+fmt(N)+'. Look carefully at where the zeros are.'}))));
+  const groupsPic=groupsHTML(N);
+  return {topic:'place',prompt:'<p>Look at this number:</p><p class="big">'+fmt(N)+'</p>',
+    steps:[{type:'choice',label:'Which of these is the number written in <b>words</b>?',options:opts,explain:groups+groupsPic}]};
+}
+
+const ROUND_PLACES=[
+  {p:10,name:'ten',plural:'tens',dec:'ones',min:120,max:9990},
+  {p:100,name:'hundred',plural:'hundreds',dec:'tens',min:1100,max:9900},
+  {p:1000,name:'thousand',plural:'thousands',dec:'hundreds',min:11000,max:98000},
+  {p:10000,name:'ten thousand',plural:'ten thousands',dec:'thousands',min:110000,max:980000},
+  {p:1000000,name:'million',plural:'millions',dec:'hundred thousands',min:1100000,max:9800000}];
+const PL={10:'tens',100:'hundreds',1000:'thousands',10000:'ten thousands',100000:'hundred thousands',1000000:'millions',10000000:'ten millions'};
+function r1(){
+  const P=pick(ROUND_PLACES);let N;
+  do{N=ri(P.min,P.max);}while(N%P.p===0||N%P.p===P.p/2||N===48617||N===8471);
+  const p=P.p,L=N-N%p,U=L+p,M=L+p/2,ans=N>M?U:L;const dd=Math.floor((N%p)/(p/10));
+  const pairs=[{text:fmt(L)+' and '+fmt(U),correct:true,why:''}];
+  if(L-p>0)pairs.push({text:fmt(L-p)+' and '+fmt(L),correct:false,why:fmt(N)+' is bigger than '+fmt(L)+', so it cannot sit between '+fmt(L-p)+' and '+fmt(L)+'.'});
+  if(p>=100){const q=p/10,Lq=N-N%q;pairs.push({text:fmt(Lq)+' and '+fmt(Lq+q),correct:false,why:'Those two numbers are '+PL[q]+'. You need two '+P.plural+'.'});}
+  if(p<1000000){const W=p*10,LW=N-N%W;if(LW!==L||LW+W!==U)pairs.push({text:fmt(LW)+' and '+fmt(LW+W),correct:false,why:'Those two numbers are '+PL[W]+'. You need two '+P.plural+'.'});}
+  const decSentence='The deciding digit is the '+P.dec+' digit, which is <b>'+dd+'</b>. '+(dd>=5?'That is 5 or more, so we round <b>up</b>.':'That is less than 5, so we round <b>down</b>.');
+  return {topic:'round',prompt:'<p>Round this number to the nearest <b>'+P.name+'</b>:</p><p class="big">'+fmt(N)+'</p>',
+    steps:[
+      {type:'choice',label:'Step 1. Which two '+P.plural+' does '+fmt(N)+' sit between?',options:shuffle(pairs.slice(0,4))},
+      {type:'choice',label:'Step 2. Halfway between '+fmt(L)+' and '+fmt(U)+' is '+fmt(M)+'. Is '+fmt(N)+' nearer to '+fmt(L)+' or to '+fmt(U)+'?',
+        options:[{text:fmt(L),correct:ans===L,why:ans===L?'':fmt(N)+' is past the halfway point ('+fmt(M)+'), so it is nearer to '+fmt(U)+'. Choosing '+fmt(L)+' is what happens when you just chop off the digits.'},
+                 {text:fmt(U),correct:ans===U,why:ans===U?'':fmt(N)+' has not reached the halfway point ('+fmt(M)+') yet, so it is nearer to '+fmt(L)+'.'}],
+        explain:decSentence+numberLine(L,U,N)},
+      {type:'input',label:'Step 3. So '+fmt(N)+' rounded to the nearest '+P.name+' is …',answer:ans,
+        wrong:v=>v===L&&ans===U?'That is the chopped answer. Look at step 2: '+fmt(N)+' is nearer to '+fmt(U)+'.':v===U&&ans===L?'Look at step 2: '+fmt(N)+' is nearer to '+fmt(L)+'.':'Use your answer from step 2.',
+        explain:''}]};
+}
+
+const EST=[
+  (n,e)=>'A vendor at the Arima market has '+n+' crates of coconuts. Each crate holds about '+e+' coconuts.',
+  (n,e)=>'For sports day, the school buys '+n+' packs of water. Each pack has about '+e+' bottles.',
+  (n,e)=>'The hall is set up for the school concert. There are '+n+' rows, and each row has about '+e+' chairs.',
+  (n,e)=>'Mr. Legall has '+n+' boxes of exercise books. Each box holds about '+e+' books.',
+  (n,e)=>'A doubles vendor sells about '+e+' doubles every morning. He works for '+n+' mornings.'];
+function e1(){
+  let e;do{e=ri(21,89);}while(e%10===0||e%10===5);
+  const n=ri(3,9),r=Math.round(e/10)*10,chop=e-e%10,est=n*r;let X;do{X=n*e+ri(-6,6);}while(X===est);
+  const diff=Math.abs(est-X);
+  return {topic:'estimate',prompt:'<p>'+pick(EST)(n,e)+'</p>',
+    steps:[
+      {type:'input',label:'Step 1. Round '+e+' to the nearest ten.',answer:r,
+        wrong:v=>v===chop&&r!==chop?'The units digit is '+(e%10)+', which is 5 or more, so '+e+' rounds <b>up</b>. Do not just chop off the units digit.':v===r+10||v===r-10?'Which ten is '+e+' nearer to? Look at the units digit.':'Find the two tens that '+e+' sits between, then choose the nearer one.',
+        explain:e+' is nearer to '+r+' than to '+(r===chop?chop+10:chop)+'.'+numberLine(chop,chop+10,e)},
+      {type:'input',label:'Step 2. Now estimate the total. Work out '+n+' × '+r+'.',answer:est,
+        wrong:v=>v===n*e?'That is the exact multiplication using '+e+'. For an estimate, use the rounded number, '+r+'.':'Here is a quick way: '+n+' × '+(r/10)+' = '+(n*r/10)+'. Then put a zero on the end.',
+        explain:n+' × '+r+' = '+fmt(est)+'. Friendly numbers make the working quick.'},
+      {type:'input',label:'Step 3. The real count is '+fmt(X)+'. How far off was the estimate?',answer:diff,
+        wrong:v=>'Subtract the smaller number from the bigger number: '+fmt(Math.max(est,X))+' − '+fmt(Math.min(est,X))+'.',
+        explain:fmt(Math.max(est,X))+' − '+fmt(Math.min(est,X))+' = '+diff+'. The estimate was only '+diff+' away, so it was a sensible estimate.'}]};
+}
+
+const FACTOR_NS=[24,30,40,42,45,48,54,56,64,70,72,80,84,96,100];
+function f1(){
+  const N=pick(FACTOR_NS),fs=factorsOf(N);
+  const cand=new Set();fs.forEach(f=>{[f+1,f-1,f+2].forEach(x=>{if(x>2&&x<N&&N%x!==0)cand.add(x);});});
+  const extras=shuffle([...cand]).slice(0,3);extras.push(N*2);
+  const pairs=[];for(const f of fs){if(f*f>N)break;pairs.push(f+' × '+(N/f));}
+  const tiles=fs.map(f=>({v:f,correct:true,whyMissed:'You missed '+f+'. '+(f===1||f===N?'1 and '+N+' are always factors of '+N+'.':f+' × '+(N/f)+' = '+N+', so '+f+' divides into '+N+' exactly.')}))
+    .concat(extras.map(x=>({v:x,correct:false,whyWrong:x===N*2?x+' is a <b>multiple</b> of '+N+' ('+N+' × 2), not a factor. A factor cannot be bigger than the number.':x+' is not a factor. '+N+' ÷ '+x+' = '+Math.floor(N/x)+' remainder '+(N%x)+'.'})))
+    .sort((a,b)=>a.v-b.v);
+  return {topic:'factors',prompt:'<p>Tap <b>all</b> the factors of <b>'+N+'</b>. Then press Check.</p>',
+    steps:[{type:'multi',tiles,explain:'Work in pairs, starting from 1: '+pairs.join(', ')+'. So the factors of '+N+' are <b>'+fs.join(', ')+'</b>.'+rainbow(N)}]};
+}
+function f2(){
+  const a=ri(3,12),k=ri(3,9),b=a*k;const form=Math.random()<.5;
+  const explain='A <b>multiple</b> is in a number’s times table: '+a+' × '+k+' = '+b+', so '+b+' is a multiple of '+a+'. A <b>factor</b> divides in exactly: '+b+' ÷ '+a+' = '+k+', so '+a+' is a factor of '+b+'.';
+  const opts=form?[{text:'factor',correct:false,why:b+' is the bigger number. A factor of '+a+' would have to fit into '+a+'.'},{text:'multiple',correct:true,why:''}]
+                 :[{text:'factor',correct:true,why:''},{text:'multiple',correct:false,why:a+' is the smaller number. Multiples of '+b+' would be '+b+', '+(2*b)+', '+(3*b)+' and so on.'}];
+  return {topic:'factors',prompt:'<p>Fill in the gap:</p><p class="big" style="font-size:1.6rem">'+(form?b+' is a ____ of '+a+'.':a+' is a ____ of '+b+'.')+'</p>',
+    steps:[{type:'choice',label:'Which word goes in the gap?',options:opts,explain}]};
+}
+function f3(){
+  const n=ri(11,19);
+  return {topic:'factors',prompt:'<p>Write the first three multiples of <b>'+n+'</b>.</p><p class="small">Put commas between your numbers, like this: 5, 10, 15</p>',
+    steps:[{type:'input',list:true,answerText:n+', '+(2*n)+', '+(3*n),check:v=>v.length===3&&v[0]===n&&v[1]===2*n&&v[2]===3*n,
+      wrong:v=>v.length!==3?'Write exactly three numbers.':v[0]===1||v.some(x=>x<n)?'Those look like factors. Multiples come from the times table: '+n+' × 1, '+n+' × 2, '+n+' × 3.':v[0]===2*n?'The first multiple of '+n+' is '+n+' itself, because '+n+' × 1 = '+n+'.':'Go up the '+n+' times table: '+n+' × 1, '+n+' × 2, '+n+' × 3.',
+      explain:n+' × 1 = '+n+', '+n+' × 2 = '+(2*n)+', '+n+' × 3 = '+(3*n)+'. Each hop adds '+n+':'+hops(n,3)}]};
+}
+
+const PRIMES=[11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97];
+const ODD_COMP=[9,15,21,25,27,33,35,39,45,49,51,55,57,63,65,69,77,85,87,91,93,95];
+function compWhy(x){const a=smallestFactor(x);return x+' = '+a+' × '+(x/a)+', so it has more factors than just 1 and '+x+'. It is not prime.'+(x%2?' It is odd, but odd does not mean prime.':'');}
+function p1(){
+  const set=new Set(shuffle(PRIMES).slice(0,3).concat(shuffle(ODD_COMP).slice(0,3)));
+  if(Math.random()<.7)set.add(1);if(Math.random()<.6)set.add(2);if(Math.random()<.4)set.add(pick([4,6,8,10,12,14,16,18]));
+  const tiles=[...set].sort((a,b)=>a-b).map(x=>isPrime(x)?{v:x,correct:true,whyMissed:x===2?'You missed 2. Its only factors are 1 and 2, so it is prime. It is the only even prime number.':'You missed '+x+'. Its only factors are 1 and '+x+', so it is prime.'}
+    :{v:x,correct:false,whyWrong:x===1?'1 is not prime. It has only one factor (itself), and a prime number needs exactly two.':compWhy(x)});
+  return {topic:'primes',prompt:'<p>Tap <b>all</b> the prime numbers. Then press Check.</p>',
+    steps:[{type:'multi',tiles,explain:'A prime number has exactly two factors: 1 and itself. The primes here are <b>'+tiles.filter(t=>t.correct).map(t=>t.v).join(', ')+'</b>.'}]};
+}
+function p2(){
+  const N=pick(ODD_COMP.filter(x=>x!==21&&x!==9)),a=smallestFactor(N);
+  return {topic:'primes',prompt:'<p><b>'+N+'</b> is not a prime number. Prove it.</p>',
+    steps:[{type:'input',label:'Write one factor of '+N+' that is not 1 and not '+N+'.',check:v=>v>1&&v<N&&N%v===0,answerText:String(a),
+      wrong:v=>v===1||v===N?'Every number has 1 and itself as factors. To show '+N+' is not prime, you need a different factor.':N+' ÷ '+v+' does not divide exactly. Try dividing by 3, then 5, then 7.',
+      explain:N+' = '+a+' × '+(N/a)+'. Because '+N+' has a factor other than 1 and itself, it is not prime.'+(N/a<=20?'<p class="small">'+N+' dots can make a rectangle of '+a+' rows. A prime number of dots can only make one long row.</p>'+arraysHTML([[a,N/a]]):'')}]};
+}
+
+function s1(){
+  const n=pick([2,3,4,5,6,8,9,10,11,12,13,14,15]);
+  return {topic:'squares',prompt:'<p>This number is written in <b>index form</b>. Work out its value.</p><p class="big">'+ix(n)+'</p>',
+    steps:[{type:'input',label:'What is '+n+' squared?',answer:n*n,
+      wrong:v=>v===2*n?'You worked out '+n+' × 2. That is doubling. The small raised 2 is the <b>index</b>. It tells you to multiply '+n+' by itself: '+n+' × '+n+'.':v===n+2?'You added '+n+' + 2. The small raised 2 is the <b>index</b>, not a number to add. '+ix(n)+' means '+n+' × '+n+'.':ix(n)+' means '+n+' × '+n+'. Check your times tables.',
+      explain:ix(n)+' = '+n+' × '+n+' = <b>'+(n*n)+'</b>.'+(n<=12?dotSquare(n):'')}]};
+}
+function s2(){
+  const m=pick([4,5,6,8,10,11,12]),sq=m*m;
+  return {topic:'squares',prompt:'<p>Find the square root:</p><p class="big">√'+sq+'</p>',
+    steps:[{type:'input',label:'What is the square root of '+sq+'?',answer:m,
+      wrong:v=>v*2===sq?'Finding a square root is not the same as halving. Ask yourself: which number multiplied by <b>itself</b> gives '+sq+'?':v*v>sq?v+' × '+v+' = '+(v*v)+'. That is too big.':v*v<sq?v+' × '+v+' = '+(v*v)+'. That is too small.':'Which number multiplied by itself gives '+sq+'?',
+      explain:m+' × '+m+' = '+sq+', so √'+sq+' = <b>'+m+'</b>. Squaring and square rooting undo each other:'+reverseDiagram(m)}]};
+}
+function s3(){
+  if(Math.random()<.55){
+    const n=pick([3,4,5,6,7,8,9]);
+    return {topic:'squares',prompt:'<p>Write this in <b>index form</b>:</p><p class="big">'+n+' × '+n+'</p>',
+      steps:[{type:'choice',label:'Which one is '+n+' × '+n+' written in index form?',
+        options:shuffle([{text:n+'²',correct:true,why:''},
+          {text:'2'+sup(n),correct:false,why:'2'+sup(n)+' would mean '+Array(n).fill('2').join(' × ')+'. The number being multiplied ('+n+') is the base, and it goes at the bottom.'},
+          {text:String(n*n),correct:false,why:n*n+' is the value of '+n+' × '+n+'. The question asks for <b>index form</b>, which uses a small raised number.'},
+          {text:n+' × 2',correct:false,why:n+' × 2 is doubling. It is not the same as '+n+' × '+n+'.'}]),
+        explain:'In index form, '+n+' × '+n+' is written '+ix(n)+'. The '+n+' is the <b>base</b>. The small raised 2 is the <b>index</b>. It shows how many times the base is multiplied.'+indexDiagram(n)}]};
+  }
+  const n=pick([5,6,7,8,9,11,12]);
+  return {topic:'squares',prompt:'<p>Look at this number in index form:</p><p class="big">'+ix(n)+'</p>',
+    steps:[{type:'choice',label:'What is the small raised 2 called?',
+      options:shuffle([{text:'the index',correct:true,why:''},
+        {text:'the base',correct:false,why:'The base is the big number at the bottom, '+n+'.'},
+        {text:'the square root',correct:false,why:'The square root is the number that goes backwards from a square, like √'+(n*n)+' = '+n+'.'},
+        {text:'the product',correct:false,why:'A product is the answer when you multiply. Here the product is '+(n*n)+'.'}]),
+      explain:indexDiagram(n)+'<p>'+ix(n)+' = '+n+' × '+n+' = '+(n*n)+'.</p>'}]};
+}
+
+const TREE_NS=[48,72,84,100,108,120,126,132,150,168,180,196,210];
+function t1(){const N=pick(TREE_NS);return {topic:'trees',prompt:'<p>Write <b>'+N+'</b> as a product of prime numbers. (A <b>product</b> is the answer when you multiply.)</p>',steps:[{type:'tree',n:N}]};}
+
+/* HCF and LCM by listing and circling, the way the class learned it */
+const HCF_PAIRS=[[16,24],[18,24],[20,30],[24,36],[18,27],[28,42],[30,45],[16,40],[24,40],[36,48],[20,50],[32,48],[27,36],[30,42]];
+const LCM_PAIRS=[[4,6],[6,8],[6,9],[8,12],[4,10],[9,12],[10,15],[12,18],[8,10],[12,16],[15,20]];
+function hcfList(){
+  const [a,b]=pick(HCF_PAIRS);const fa=factorsOf(a),fb=factorsOf(b);const common=fa.filter(x=>fb.includes(x));const H=Math.max(...common);const L=a*b/gcd(a,b);
+  return {topic:'hcf',prompt:'<p>Find the <b>HCF</b> (Highest Common Factor) of <b>'+a+'</b> and <b>'+b+'</b>.</p><p class="small">In your book, list the factors of each number first. Then check your lists against the ones below.</p>',
+    steps:[
+      {type:'circle',label:'Step 1. Circle the <b>common factors</b>. Tap every number that is in <b>both</b> lists.',
+        rows:[{label:'Factors of '+a,vals:fa},{label:'Factors of '+b,vals:fb}],kind:'factor',
+        explain:'The common factors of '+a+' and '+b+' are <b>'+common.join(', ')+'</b>.'},
+      {type:'input',label:'Step 2. The common factors are '+common.join(', ')+'. What is the HCF?',answer:H,
+        wrong:v=>v===common[0]?'That is the <b>lowest</b> common factor. HCF stands for <b>Highest</b> Common Factor, so choose the biggest one.':common.includes(v)?v+' is a common factor, but it is not the highest one.':v===L?'That is the LCM. The HCF must be a factor of both numbers, so it cannot be bigger than '+a+'.':(fa.includes(v)||fb.includes(v))?v+' is only in one of the lists. The HCF must be in both lists.':'Choose the biggest number from the common factors.',
+        explain:'The highest of the common factors is <b>'+H+'</b>. So the HCF of '+a+' and '+b+' is '+H+'.'}]};
+}
+function lcmList(){
+  const [a,b]=pick(LCM_PAIRS);const L=a*b/gcd(a,b);
+  const ma=[],mb=[];for(let x=a;x<=2*L;x+=a)ma.push(x);for(let x=b;x<=2*L;x+=b)mb.push(x);
+  const common=ma.filter(x=>mb.includes(x));
+  return {topic:'hcf',prompt:'<p>Find the <b>LCM</b> (Lowest Common Multiple) of <b>'+a+'</b> and <b>'+b+'</b>.</p><p class="small">In your book, list the multiples of each number first. Then check your lists against the ones below.</p>',
+    steps:[
+      {type:'circle',label:'Step 1. Circle the <b>common multiples</b>. Tap every number that is in <b>both</b> lists.',
+        rows:[{label:'Multiples of '+a,vals:ma},{label:'Multiples of '+b,vals:mb}],kind:'multiple',
+        explain:'The common multiples in these lists are <b>'+common.join(', ')+'</b>. The lists go on forever, so there are more common multiples after these.'},
+      {type:'input',label:'Step 2. The common multiples are '+common.join(', ')+' and so on. What is the LCM?',answer:L,
+        wrong:v=>v===a*b&&a*b!==L?'You multiplied '+a+' × '+b+'. That gives a common multiple, but not the lowest one. Look at the numbers you circled.':v===2*L?'That is a common multiple, but not the lowest one.':v===gcd(a,b)?'That is the HCF. The LCM must be in both times tables, so it cannot be smaller than '+b+'.':(ma.includes(v)||mb.includes(v))?v+' is only in one of the lists. The LCM must be in both.':'Choose the smallest number from the common multiples.',
+        explain:'The lowest of the common multiples is <b>'+L+'</b>. So the LCM of '+a+' and '+b+' is '+L+'.'+doubleHops(a,b)}]};
+}
+const SCEN=[
+  ['Two lights on the steelpan stage flash. One flashes every 4 seconds and the other flashes every 6 seconds. They flash together right now. When will they next flash together?','LCM'],
+  ['Ms. Ali has a ribbon 24 m long and another ribbon 36 m long. She wants to cut both ribbons into pieces that are all the same length, as long as possible, with nothing left over. How long should each piece be?','HCF'],
+  ['Hot dogs come in packs of 10. Buns come in packs of 8. For sports day, the class wants the same number of hot dogs and buns, with none left over. What is the smallest number of each they can buy?','LCM'],
+  ['A teacher has 18 mangoes and 27 portugals. She wants to make fruit bags that are all exactly the same, using all of the fruit. What is the greatest number of bags she can make?','HCF'],
+  ['Kai runs one lap of the savannah in 6 minutes. Ria runs one lap in 9 minutes. They start together at the gate. After how many minutes will they next be at the gate together?','LCM'],
+  ['A floor is 48 cm by 60 cm. It must be covered with square tiles, all the same size, as big as possible, with no cutting. How long should each side of a tile be?','HCF'],
+  ['One church bell rings every 15 minutes. Another rings every 20 minutes. They ring together at 9:00 a.m. When will they next ring together?','LCM'],
+  ['Thirty-six boys and 48 girls are put into teams. Every team must have the same number of boys and the same number of girls, with nobody left out. What is the greatest number of teams?','HCF']];
+function h2(){
+  const [txt,ans]=pick(SCEN);
+  const why={HCF:'This question is about <b>splitting</b> things into equal groups or pieces with nothing left over. That is dividing, so you need a common <b>factor</b>. You want the biggest one, so it is the <b>HCF</b>.',
+    LCM:'This question is about waiting for two things to <b>line up</b> again. The times (or amounts) are in both times tables, so you need a common <b>multiple</b>. You want the first one, so it is the <b>LCM</b>.'};
+  return {topic:'hcf',prompt:'<p>'+txt+'</p>',
+    steps:[{type:'choice',label:'Should you use the HCF or the LCM? (You do not need to work out the answer.)',
+      options:[{text:'HCF (Highest Common Factor)',correct:ans==='HCF',why:ans==='HCF'?'':why.LCM},{text:'LCM (Lowest Common Multiple)',correct:ans==='LCM',why:ans==='LCM'?'':why.HCF}],
+      explain:'Ask yourself: am I sharing or splitting something up? That is the HCF. Am I waiting for things to line up again? That is the LCM.'+splitOrLineUp()}]};
+}
+
+/* Find the fault. Each faulty line is a stated plan or claim that is false, never a true calculation. */
+const FOLLOWS='This line only follows from the line before it. The mistake happened earlier.';
+const FAULTS=[
+ {task:'Round 5 762 to the nearest hundred.',lines:[['5 762 is between 5 700 and 5 800.','This line is correct. 5 762 does sit between 5 700 and 5 800.'],['To round to the nearest hundred, we drop the last two digits and put zeros there.',''],['So 5 762 rounded to the nearest hundred is 5 700.',FOLLOWS]],bad:1,
+  faults:[['Dropping the digits is chopping, not rounding. They should have checked whether 5 762 is nearer to 5 700 or to 5 800.',1,'Yes. You must look at the deciding digit. Here it is the tens digit, 6, which is 5 or more.'],['They used the wrong pair of hundreds.',0,'Look at line 1 again. 5 700 and 5 800 is the right pair.'],['They rounded to the nearest thousand by mistake.',0,'The nearest thousand would be 6 000. The student did not write that.']],
+  fix:{type:'input',label:'Now fix it. What is 5 762 rounded to the nearest hundred?',answer:5800,explain:'The deciding digit is the tens digit, 6. That is 5 or more, so round up. 5 762 is past the halfway point (5 750), so it is nearer to 5 800.'}},
+ {task:'Work out 11².',lines:[['11² means 11 × 2.',''],['11 × 2 = 22','The multiplication itself is right. 11 × 2 really is 22. The problem is the plan in line 1.'],['So 11² = 22.',FOLLOWS]],bad:0,
+  faults:[['11² does not mean 11 × 2. It means 11 multiplied by itself: 11 × 11.',1,'Yes. The small raised 2 is the index. It tells you to multiply 11 by itself.'],['They added 11 and 2.',0,'11 + 2 = 13, but the student did not add.'],['They worked out 11 × 2 wrongly.',0,'11 × 2 really is 22. The problem is that they should not multiply by 2 at all.']],
+  fix:{type:'input',label:'Now fix it. What is 11²?',answer:121,explain:'11² = 11 × 11 = 121.'}},
+ {task:'Write 72 as a product of its prime factors.',lines:[['72 = 8 × 9','This line is correct. 8 × 9 = 72, and it is a fine first split.'],['8 and 9 are prime numbers, so we can stop here.',''],['So 72 as a product of primes is 8 × 9.',FOLLOWS]],bad:1,
+  faults:[['8 and 9 are not prime numbers, so the student should have kept splitting.',1,'Yes. 8 = 2 × 2 × 2 and 9 = 3 × 3. A factor tree is only finished when every branch ends in a prime number.'],['8 × 9 does not equal 72.',0,'Check it: 8 × 9 = 72. The multiplication is right.'],['They should have started with 2 × 36.',0,'You can start a factor tree with any pair of factors. Every correct tree ends with the same primes.']],
+  fix:{type:'choice',label:'Now fix it. Which is 72 written as a product of primes?',options:[{text:'2 × 2 × 2 × 3 × 3',correct:true,why:'8 = 2 × 2 × 2 and 9 = 3 × 3. Together they make 2 × 2 × 2 × 3 × 3 = 72.'},{text:'2 × 4 × 9',correct:false,why:'4 and 9 are not prime numbers.'},{text:'2 × 2 × 3 × 3',correct:false,why:'Multiply it out: 2 × 2 × 3 × 3 = 36, not 72. One 2 is missing.'},{text:'2 × 3 × 12',correct:false,why:'12 is not a prime number.'}]}},
+ {task:'Find the LCM of 6 and 10.',lines:[['To find the LCM, we must multiply 6 and 10.',''],['6 × 10 = 60','The multiplication itself is right. 6 × 10 really is 60. The problem is the plan in line 1.'],['So the LCM of 6 and 10 is 60.',FOLLOWS]],bad:0,
+  faults:[['Multiplying the two numbers does not always give the LOWEST common multiple. They should have listed the multiples of each number.',1,'Yes. 60 is in both times tables, but there is a smaller number that is in both as well.'],['They found the HCF instead of the LCM.',0,'The HCF of 6 and 10 is 2. The student did not find that.'],['6 × 10 is not 60.',0,'6 × 10 = 60 is correct. The problem is the plan.']],
+  fix:{type:'input',label:'Now fix it. What is the LCM of 6 and 10?',answer:30,explain:'Multiples of 6: 6, 12, 18, 24, <b>30</b>, 36. Multiples of 10: 10, 20, <b>30</b>, 40. The first number in both lists is 30.'}},
+ {task:'Find the HCF of 12 and 18.',lines:[['Factors of 12: 1, 2, 3, 4, 6, 12','This list is correct.'],['Factors of 18: 1, 2, 3, 6, 9, 18','This list is correct.'],['Common factors: 1, 2, 3, 6','This line is correct. These four numbers are in both lists.'],['The HCF is the smallest common factor, so the HCF is 1.','']],bad:3,
+  faults:[['HCF means the Highest Common Factor. They chose the smallest one instead of the highest.',1,'Yes. The common factors are 1, 2, 3 and 6. The highest is 6.'],['They missed a common factor.',0,'Line 3 has all four common factors: 1, 2, 3 and 6.'],['They listed the factors of 12 wrongly.',0,'Check it: 1, 2, 3, 4, 6 and 12 all divide into 12. That list is right.']],
+  fix:{type:'input',label:'Now fix it. What is the HCF of 12 and 18?',answer:6,explain:'The common factors are 1, 2, 3 and 6. The highest one is 6.'}},
+ {task:'List all the factors of 28.',lines:[['1 × 28','This pair is correct.'],['2 × 14','This pair is correct.'],['4 × 7','This pair is correct.'],['Factors of 28: 1, 2, 4, 7, 28','']],bad:3,
+  faults:[['They left out 14, even though they found it in the pair 2 × 14.',1,'Yes. Every pair gives you two factors. The pair 2 × 14 gives you 2 and 14.'],['They missed the pair 3 × 9.',0,'3 × 9 = 27, not 28. So 3 and 9 are not factors of 28.'],['28 should not be in the list.',0,'Every number is a factor of itself, so 28 belongs in the list.']],
+  fix:{type:'choice',label:'Now fix it. Which is the full list of factors of 28?',options:[{text:'1, 2, 4, 7, 14, 28',correct:true,why:'Each pair gives two factors: 1 and 28, 2 and 14, 4 and 7.'},{text:'1, 2, 4, 7, 28',correct:false,why:'That is the student’s list. 14 is still missing.'},{text:'2, 4, 7, 14',correct:false,why:'1 and 28 are factors of 28 as well.'},{text:'1, 2, 3, 4, 7, 14, 28',correct:false,why:'28 ÷ 3 = 9 remainder 1, so 3 is not a factor of 28.'}]}},
+ {task:'Which of these numbers are prime: 1, 2, 9, 13, 15?',lines:[['Prime numbers are the odd numbers.',''],['So the primes are 1, 9, 13 and 15.',FOLLOWS]],bad:0,
+  faults:[['Prime does not mean odd. A prime number has exactly two factors: 1 and itself.',1,'Yes. 9 = 3 × 3 and 15 = 3 × 5 are odd, but they are not prime. 2 is even, and it is prime.'],['They forgot that 1 is the smallest prime.',0,'1 is not prime. It has only one factor.'],['They should have listed the even numbers instead.',0,'Even numbers are not all prime either. 2 is the only even prime.']],
+  fix:{type:'choice',label:'Now fix it. Which numbers in the list are prime?',options:[{text:'2 and 13',correct:true,why:'2 has only the factors 1 and 2. 13 has only the factors 1 and 13.'},{text:'2, 13 and 15',correct:false,why:'15 = 3 × 5, so 15 is not prime.'},{text:'1, 2 and 13',correct:false,why:'1 is not prime. It has only one factor.'},{text:'13 only',correct:false,why:'2 is prime. Its only factors are 1 and 2.'}]}},
+ {task:'What is the value of the 6 in 4 680 213?',lines:[['Counting from the right, the 6 is in the thousands place.',''],['So its value is 6 000.',FOLLOWS]],bad:0,
+  faults:[['They counted the places wrongly. The 6 is in the hundred thousands place.',1,'Yes. Count from the right: ones (3), tens (1), hundreds (2), thousands (0), ten thousands (8), hundred thousands (6).'],['They wrote the digit instead of its value.',0,'They wrote 6 000, which is a value, not just the digit 6.'],['The value of a digit is always the digit itself.',0,'No. The value of a digit depends on the place it is in.']],
+  fix:{type:'input',label:'Now fix it. What is the value of the 6 in 4 680 213?',answer:600000,explain:'The 6 is in the hundred thousands place, so its value is 6 × 100 000 = 600 000.'}},
+ {task:'Estimate 49 × 21 by rounding each number to the nearest ten.',lines:[['49 rounds to 40.',''],['21 rounds to 20.','This line is correct. 21 is nearer to 20 than to 30.'],['40 × 20 = 800','The multiplication is right, but it uses the wrong rounded number from line 1.']],bad:0,
+  faults:[['They chopped the 9 off 49 instead of rounding. 49 is nearer to 50.',1,'Yes. The units digit is 9, which is 5 or more, so 49 rounds up to 50.'],['21 should round to 30.',0,'21 is only 1 away from 20 and 9 away from 30, so 20 is right.'],['40 × 20 is not 800.',0,'40 × 20 = 800 is correct. The mistake is earlier.']],
+  fix:{type:'input',label:'Now fix it. What is the correct estimate?',answer:1000,explain:'50 × 20 = 1 000. The exact answer is 49 × 21 = 1 029, so 1 000 is a very good estimate.'}}];
+function faultQ(F){
+  return {topic:'fault',prompt:'<p class="task">A student was asked: <b>'+F.task+'</b></p><p>Here is their work. Something is wrong.</p>'+bookHTML(F.lines.map(l=>l[0])),
+    steps:[
+      {type:'choice',label:'Step 1. Tap the <b>first</b> line where the student went wrong.',options:F.lines.map((l,i)=>({text:'Line '+(i+1)+': '+l[0],correct:i===F.bad,why:i===F.bad?'':(l[1]||'')}))},
+      {type:'choice',label:'Step 2. What did the student do wrong?',options:shuffle(F.faults.map(f=>({text:f[0],correct:!!f[1],why:f[2]})))},
+      F.fix]};
+}
+let faultDeck=[];
+function ff(){if(!faultDeck.length)faultDeck=shuffle(FAULTS);return faultQ(faultDeck.pop());}
+
+/* ---------- topics, each with worked examples ---------- */
+const TOPICS=[
+ {id:'place',name:'Place value',blurb:'The value of a digit. Writing big numbers in words.',sym:icon('place'),tint:1,gens:[pv1,pv2],n:6,
+  remind:()=>'<p>Each place is worth ten times the place on its right. The <b>value</b> of a digit is the digit multiplied by what its place is worth.</p>'+
+   '<div class="example"><b>Example 1</b><p>What is the value of the 2 in <b>4 726 315</b>?</p><p>The 2 is in the ten thousands place. Its value is 2 × 10 000 = <b>20 000</b>.</p>'+pvChart(4726315,4)+'</div>'+
+   '<div class="example"><b>Example 2</b><p>Write <b>3 052 007</b> in words.</p><p>Split it into groups of three from the right: <b>3</b> | <b>052</b> | <b>007</b>.</p>'+groupsHTML(3052007)+'<p>Read each group: 3 million, 52 thousand, 7.</p><p><b>Three million, fifty-two thousand and seven.</b></p></div>'},
+ {id:'round',name:'Rounding',blurb:'Rounding to the nearest ten, hundred, thousand, ten thousand or million.',sym:icon('round'),tint:2,gens:[r1],n:6,
+  remind:()=>'<p>The <b>deciding digit</b> is the digit just to the right of the place you are rounding to. If it is 5 or more, round up. If it is less than 5, round down.</p>'+
+   '<div class="example"><b>Example</b><p>Round <b>3 470</b> to the nearest hundred.</p><p>1. It sits between 3 400 and 3 500.</p><p>2. The deciding digit is the tens digit, <b>7</b>.</p><p>3. 7 is 5 or more, so round up. The answer is <b>3 500</b>.</p>'+numberLine(3400,3500,3470)+'<p class="small">3 470 is past the halfway point (3 450), so it is nearer to 3 500. Writing 3 400 would be chopping, which is wrong.</p></div>'},
+ {id:'estimate',name:'Estimating',blurb:'Making a sensible guess using friendly numbers.',sym:icon('estimate'),tint:3,gens:[e1],n:5,
+  remind:()=>'<p>An <b>estimate</b> is a sensible guess, not the exact answer. Round the numbers to friendly numbers first, then work it out.</p>'+
+   '<div class="example"><b>Example</b><p>A vendor has 7 trays of eggs. Each tray holds about <b>28</b> eggs. About how many eggs are there?</p><p>1. Round 28 to the nearest ten: <b>30</b>.</p>'+numberLine(20,30,28)+'<p>2. Multiply: 7 × 30 = <b>210</b>.</p><p>So there are about 210 eggs. The exact answer is 7 × 28 = 196, so 210 is close.</p></div>'},
+ {id:'factors',name:'Factors and multiples',blurb:'Finding all the factors. Telling factors and multiples apart.',sym:icon('factors'),tint:4,gens:[f1,f2,f3],n:6,
+  remind:()=>'<p>A <b>factor</b> divides into a number exactly, with nothing left over. A <b>multiple</b> is in a number’s times table.</p>'+
+   '<div class="example"><b>Example 1: factors of 18</b><p>Work in pairs that multiply to 18:</p><p>1 × 18 &nbsp;·&nbsp; 2 × 9 &nbsp;·&nbsp; 3 × 6</p><p>So the factors of 18 are <b>1, 2, 3, 6, 9, 18</b>.</p><p class="small">Each pair makes a rectangle of 18 dots:</p>'+arraysHTML([[1,18],[2,9],[3,6]])+rainbow(18)+'</div>'+
+   '<div class="example"><b>Example 2: multiples of 6</b><p>6 × 1 = 6 &nbsp;·&nbsp; 6 × 2 = 12 &nbsp;·&nbsp; 6 × 3 = 18 &nbsp;·&nbsp; 6 × 4 = 24</p><p>So the multiples of 6 are <b>6, 12, 18, 24</b> and so on.</p>'+hops(6,4)+'<p class="small">18 is a multiple of 6, and 6 is a factor of 18.</p></div>'},
+ {id:'primes',name:'Prime numbers',blurb:'Spotting primes, and proving a number is not prime.',sym:icon('primes'),tint:1,gens:[p1,p2],n:6,
+  remind:()=>'<p>A <b>prime number</b> has exactly two factors: 1 and itself.</p>'+
+   '<div class="example"><b>Examples</b><p><b>13</b>: the only pair is 1 × 13. Factors: 1, 13. Two factors, so 13 <b>is prime</b>.</p><p><b>15</b>: 1 × 15 and 3 × 5. Factors: 1, 3, 5, 15. More than two, so 15 is <b>not prime</b>, even though it is odd.</p><p class="small">13 dots can only make one long row. 15 dots can also make a rectangle of 3 rows of 5:</p>'+arraysHTML([[1,13],[3,5]])+'<p><b>1</b>: its only factor is 1. That is just one factor, so 1 is <b>not prime</b>.</p><p><b>2</b>: factors 1 and 2. It is prime. It is the only even prime.</p></div>'},
+ {id:'squares',name:'Squares and square roots',blurb:'Index form, working out squares, and going backwards to the square root.',sym:icon('squares'),tint:2,gens:[s1,s2,s3],n:6,
+  remind:()=>'<p>A number like '+ix(6)+' is written in <b>index form</b>. The big number is the <b>base</b>. The small raised number is the <b>index</b>.</p>'+indexDiagram(6)+
+   '<div class="example"><b>Example 1</b><p>'+ix(6)+' = 6 × 6 = <b>36</b>. It does <b>not</b> mean 6&nbsp;×&nbsp;2.</p>'+dotSquare(6)+'</div>'+
+   '<div class="example"><b>Example 2</b><p>The <b>square root</b> goes backwards. √36 = <b>6</b>, because 6 × 6 = 36.</p>'+reverseDiagram(6)+'</div>'},
+ {id:'trees',name:'Factor trees',blurb:'Splitting a number until every branch ends in a prime.',sym:icon('trees'),tint:3,gens:[t1],n:4,
+  remind:()=>'<p>Split the number into two factors. Keep splitting until every branch ends in a <b>prime number</b>. Then write the number as a <b>product</b> of those primes. (A product is the answer when you multiply.)</p>'+
+   '<div class="example"><b>Example: 36</b><p>36 = 4 × 9. Then 4 = 2 × 2 and 9 = 3 × 3. Every branch now ends in a prime (shown in green).</p>'+treeHTML({v:36,kids:[{v:4,kids:[{v:2,kids:null},{v:2,kids:null}]},{v:9,kids:[{v:3,kids:null},{v:3,kids:null}]}]})+'<p>So <b>36 = 2 × 2 × 3 × 3</b>.</p><p class="small">If you start with 6 × 6 instead, you still end with the same primes.</p></div>'},
+ {id:'hcf',name:'HCF and LCM',blurb:'Listing and circling to find the HCF and LCM, and choosing which one a question needs.',sym:icon('hcf'),tint:4,gens:[hcfList,lcmList,h2],n:6,
+  remind:()=>'<p><b>HCF</b> (Highest Common Factor): the biggest number that divides into both numbers.</p><p><b>LCM</b> (Lowest Common Multiple): the smallest number that is in both times tables.</p>'+
+   '<div class="example"><b>Example 1: HCF of 12 and 18</b><p>List the factors of each number. Circle the ones in both lists.</p>'+listLine('12:',[1,2,3,4,6,12],[1,2,3,6])+listLine('18:',[1,2,3,6,9,18],[1,2,3,6])+'<p>The common factors are 1, 2, 3 and 6. The highest is 6, so the <b>HCF is 6</b>.</p></div>'+
+   '<div class="example"><b>Example 2: LCM of 4 and 6</b><p>List the multiples of each number. Circle the ones in both lists.</p>'+listLine('4:',[4,8,12,16,20,24],[12,24])+listLine('6:',[6,12,18,24],[12,24])+'<p>The common multiples are 12 and 24. The lowest is 12, so the <b>LCM is 12</b>.</p>'+doubleHops(4,6)+'</div>'+
+   '<div class="example"><b>Which one does a word problem need?</b>'+splitOrLineUp()+'</div>'},
+ {id:'fault',name:'Find the fault',blurb:'Read a student’s work. Find the mistake, name it and fix it.',sym:icon('fault'),tint:1,gens:[ff],n:5,
+  remind:()=>'<p>Read the student’s work line by line. Find the <b>first</b> line that is wrong. Say what the mistake is. Then work out the correct answer.</p>'+
+   '<div class="example"><b>Example</b><p>A student was asked: <b>Is 9 a prime number?</b></p>'+bookHTML(['9 is odd, so it is prime.'])+'<p><b>First wrong line:</b> line 1.</p><p><b>The mistake:</b> odd does not mean prime. 9 = 3 × 3, so 9 has more than two factors.</p><p><b>The fix:</b> 9 is not a prime number.</p></div>'+
+   '<p class="small">On the real quiz, you get marks for <b>naming</b> the mistake, not just for saying "it is wrong".</p>'}];
+const TOPIC_BY_ID=Object.fromEntries(TOPICS.map(t=>[t.id,t]));
+const doneTopics=()=>TOPICS.filter(T=>store.get(T.id));
+const allDone=()=>doneTopics().length===TOPICS.length;
+const topicsSummary=()=>TOPICS.map(T=>{const b=store.get(T.id);return T.name+' '+(b?b.s+'/'+b.n:'not done');}).join('; ');
+function formLink(name,cls,code){
+  if(!FORM_URL)return '';const q=['usp=pp_url'];const add=(k,v)=>{if(k)q.push(encodeURIComponent(k)+'='+encodeURIComponent(v));};
+  add(FORM_FIELDS.name,name);add(FORM_FIELDS.cls,cls);add(FORM_FIELDS.code,code);add(FORM_FIELDS.topics,topicsSummary());
+  return FORM_URL+'?'+q.join('&');
+}
+
+function makeRound(topicId){
+  if(topicId==='mixed'){
+    const order=shuffle(TOPICS.map(t=>t.id)).concat(shuffle(['place','round','factors','primes','hcf','fault'])).slice(0,10);
+    return order.map(id=>pick(TOPIC_BY_ID[id].gens)());
+  }
+  const T=TOPIC_BY_ID[topicId];const qs=[];let bag=[];
+  for(let i=0;i<T.n;i++){if(!bag.length)bag=shuffle(T.gens);qs.push(bag.pop()());}
+  return qs;
+}
+
+/* ---------- page ---------- */
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+/* Progress is kept in memory as well, so nothing is lost during a visit even where the browser blocks saving. */
+const memStore={};
+const storageOK=(()=>{try{localStorage.setItem('wnsl-test','1');const ok=localStorage.getItem('wnsl-test')==='1';localStorage.removeItem('wnsl-test');return ok;}catch(e){return false;}})();
+const store={get(k){if(k in memStore)return memStore[k];try{const v=JSON.parse(localStorage.getItem('wnsl-'+k));if(v!==null&&v!==undefined)memStore[k]=v;return v;}catch(e){return null;}},
+  set(k,v){memStore[k]=v;try{localStorage.setItem('wnsl-'+k,JSON.stringify(v));}catch(e){}}};
+
+/* ---------- ticket: a code that only works with the student's own name and class ---------- */
+const CODE_ABC='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const normName=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[^a-z]/g,'');
+function fnv(str,seed){let h=seed>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return h>>>0;}
+function ticketCode(name,cls){
+  const s=TICKET_SALT+'|'+normName(name)+'|'+String(cls||'').toUpperCase()+'|all9';
+  const h=fnv(s,2166136261),g=fnv(s.split('').reverse().join(''),374761393);let out='';
+  for(let i=0;i<6;i++){const v=i<3?h:g;out+=CODE_ABC[Math.floor(v/Math.pow(31,i%3))%31];}
+  return out.slice(0,3)+'-'+out.slice(3);
+}
+const cleanCode=c=>String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+function checkTicket(name,cls,code){
+  const c=cleanCode(code);if(!normName(name)||c.length!==6)return {ok:false};
+  if(cleanCode(ticketCode(name,cls))===c)return {ok:true,cls:String(cls).toUpperCase()};
+  for(const k of CLASSES)if(cleanCode(ticketCode(name,k))===c)return {ok:true,cls:k,classMismatch:true};
+  return {ok:false};
+}
+function parseStamp(s){
+  s=String(s||'').trim();if(!s)return null;
+  if(/^\d{4}-\d{2}-\d{2}/.test(s)){const d=new Date(s.replace(' ','T'));return isNaN(d)?null:d;}
+  const m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ ,T]+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);if(!m)return null;
+  const a=+m[1],b=+m[2],y=+m[3],mk=(d,mo)=>new Date(y,mo-1,d,+(m[4]||0),+(m[5]||0),+(m[6]||0));
+  const c=[];if(a<=12&&b<=31)c.push(mk(b,a));if(b<=12&&a<=31)c.push(mk(a,b));if(!c.length)return null;
+  const now=Date.now();c.sort((x,z)=>Math.abs(x-now)-Math.abs(z-now));return c[0];
+}
+const ticketsOpen=()=>Date.now()<TICKET_CLOSES.getTime();
+const reduceMotion=()=>window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const scrollTo=n=>{try{n.scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'nearest'});}catch(e){}};
+const inFrame=(()=>{try{return window.self!==window.top;}catch(e){return true;}})();
+
+function runStep(step,host,done){
+  const box=el('div','step');host.appendChild(box);
+  if(step.label&&step.type!=='tree')box.appendChild(el('p','step-q',step.label));
+  const fb=el('div','fb');fb.hidden=true;fb.setAttribute('role','status');
+  const show=(kind,html)=>{fb.hidden=false;fb.className='fb '+kind;fb.innerHTML=html;scrollTo(fb);};
+  let tries=0;
+
+  if(step.type==='input'){
+    const row=el('div','answer-row');const inp=el('input');inp.type='text';inp.inputMode=step.list?'text':'numeric';
+    inp.autocomplete='off';inp.id='ans'+(++uid);inp.setAttribute('aria-label','Your answer');inp.placeholder=step.list?'e.g. 5, 10, 15':'Your answer';
+    const btn=el('button','btn primary','Check');row.append(inp,btn);box.append(row,fb);
+    const lock=()=>{inp.disabled=true;btn.disabled=true;};
+    const check=()=>{
+      const raw=inp.value.trim();if(!raw){show('note','Type your answer first.');return;}
+      let v,ok;
+      if(step.list){v=parseList(raw);if(!v.length||v.some(isNaN)){show('note','Type whole numbers with commas between them, like 5, 10, 15.');return;}ok=step.check(v);}
+      else{v=parseNum(raw);if(isNaN(v)){show('note','Type a whole number using digits only, like 4 500.');return;}ok=step.check?step.check(v):v===step.answer;}
+      if(ok){show('good','<b>Correct.</b> '+(step.explain||''));lock();done(tries===0);}
+      else{tries++;const w=step.wrong?step.wrong(v):'';
+        if(tries<2)show('bad','<b>Not yet.</b> <span>'+w+'</span> <span class="again">Try again.</span>');
+        else{show('bad','<b>Not yet.</b> <span>'+w+'</span><div class="reveal"><p><b>The answer is '+(step.answerText||fmt(step.answer))+'.</b></p>'+(step.explain?'<div>'+step.explain+'</div>':'')+'</div>');lock();done(false);}}
+    };
+    btn.onclick=check;inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check();}});
+  }
+
+  if(step.type==='choice'){
+    const list=el('div','choices');box.append(list,fb);const maxTries=Math.min(2,step.options.length-1);let locked=false;
+    const btns=step.options.map(o=>{const b=el('button','choice',o.text);list.appendChild(b);return {b,o};});
+    const lockAll=()=>{locked=true;btns.forEach(x=>x.b.disabled=true);};
+    btns.forEach(({b,o})=>b.onclick=()=>{
+      if(locked)return;
+      if(o.correct){b.classList.add('right');show('good','<b>Correct.</b> '+(o.why?o.why+' ':'')+(step.explain||''));lockAll();done(tries===0);return;}
+      tries++;b.classList.add('wrong');b.disabled=true;
+      if(tries<maxTries)show('bad','<b>Not yet.</b> '+(o.why||'')+' <span class="again">Try again.</span>');
+      else{const c=btns.find(x=>x.o.correct);c.b.classList.add('right');
+        show('bad','<b>Not yet.</b> '+(o.why||'')+'<div class="reveal"><p><b>The answer is: '+c.o.text+'.</b> '+(c.o.why||'')+'</p>'+(step.explain?'<div>'+step.explain+'</div>':'')+'</div>');lockAll();done(false);}
+    });
+  }
+
+  if(step.type==='multi'){
+    const grid=el('div','tiles');const btn=el('button','btn primary','Check');const row=el('div','answer-row');row.appendChild(btn);box.append(grid,row,fb);
+    const ts=step.tiles.map(t=>{const b=el('button','tile',String(t.v));b.setAttribute('aria-pressed','false');b.onclick=()=>{if(b.disabled)return;b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');};grid.appendChild(b);return {b,t};});
+    btn.onclick=()=>{
+      const on=x=>x.b.getAttribute('aria-pressed')==='true';
+      const missed=ts.filter(x=>x.t.correct&&!on(x)),extra=ts.filter(x=>!x.t.correct&&on(x));
+      if(!missed.length&&!extra.length){ts.forEach(x=>{if(x.t.correct)x.b.classList.add('right');x.b.disabled=true;});btn.disabled=true;show('good','<b>Correct.</b> '+step.explain);done(tries===0);return;}
+      tries++;
+      if(tries<2){
+        const bits=[];if(extra.length)bits.push('You have chosen '+(extra.length===1?'one number':extra.length+' numbers')+' that should not be there.');
+        if(missed.length)bits.push('You have missed '+(missed.length===1?'one number':missed.length+' numbers')+'.');
+        const hint=extra.length?'<p>'+extra[0].t.whyWrong+'</p>':'';
+        show('bad','<b>Not yet.</b> <p>'+bits.join(' ')+'</p>'+hint+'<span class="again">Change your choices and press Check again.</span>');
+      }else{
+        ts.forEach(x=>{x.b.disabled=true;if(x.t.correct)x.b.classList.add(on(x)?'right':'missed');else if(on(x))x.b.classList.add('wrong');});btn.disabled=true;
+        const lines=extra.map(x=>x.t.whyWrong).concat(missed.map(x=>x.t.whyMissed));
+        show('bad','<b>Not yet.</b><ul>'+lines.map(l=>'<li>'+l+'</li>').join('')+'</ul><div class="reveal">'+step.explain+'</div>');done(false);
+      }
+    };
+  }
+
+  if(step.type==='circle'){
+    const rows=step.rows;const common=rows[0].vals.filter(v=>rows.every(r=>r.vals.includes(v)));
+    const sel=new Set();const tiles=[];
+    rows.forEach(r=>{const wrap=el('div','crow');wrap.appendChild(el('p','crow-label',r.label+':'));const g=el('div','tiles');
+      r.vals.forEach(v=>{const b=el('button','tile',String(v));b.setAttribute('aria-pressed','false');b.dataset.v=v;
+        b.onclick=()=>{if(b.disabled)return;sel.has(v)?sel.delete(v):sel.add(v);tiles.forEach(t=>t.setAttribute('aria-pressed',sel.has(+t.dataset.v)?'true':'false'));};
+        g.appendChild(b);tiles.push(b);});
+      wrap.appendChild(g);box.appendChild(wrap);});
+    const btn=el('button','btn primary','Check');const row=el('div','answer-row');row.appendChild(btn);box.append(row,fb);
+    const lo=s=>s.charAt(0).toLowerCase()+s.slice(1);
+    const why=v=>{const inR=rows.filter(r=>r.vals.includes(v)),outR=rows.filter(r=>!r.vals.includes(v));return v+' is in the '+lo(inR[0].label)+' list, but it is not in the '+lo(outR[0].label)+' list.';};
+    btn.onclick=()=>{
+      const extra=[...sel].filter(v=>!common.includes(v)),missed=common.filter(v=>!sel.has(v));
+      if(!extra.length&&!missed.length){tiles.forEach(t=>{t.disabled=true;if(common.includes(+t.dataset.v))t.classList.add('right');});btn.disabled=true;show('good','<b>Correct.</b> '+step.explain);done(tries===0);return;}
+      tries++;
+      if(tries<2){
+        const bits=[];if(extra.length)bits.push('You have circled '+(extra.length===1?'one number':extra.length+' numbers')+' that is not in both lists.'.replace('that is',extra.length===1?'that is':'that are'));
+        if(missed.length)bits.push('You have missed '+(missed.length===1?'one number':missed.length+' numbers')+' that '+(missed.length===1?'is':'are')+' in both lists.');
+        show('bad','<b>Not yet.</b> <p>'+bits.join(' ')+'</p>'+(extra.length?'<p>'+why(extra[0])+'</p>':'')+'<span class="again">Change your circles and press Check again.</span>');
+      }else{
+        tiles.forEach(t=>{const v=+t.dataset.v;t.disabled=true;if(common.includes(v))t.classList.add(sel.has(v)?'right':'missed');else if(sel.has(v))t.classList.add('wrong');});btn.disabled=true;
+        const lines=extra.map(why).concat(missed.map(v=>'You missed '+v+'. It is in both lists.'));
+        show('bad','<b>Not yet.</b><ul>'+lines.map(l=>'<li>'+l+'</li>').join('')+'</ul><div class="reveal">'+step.explain+'</div>');done(false);
+      }
+    };
+  }
+
+  if(step.type==='tree'){
+    const N=step.n;const root={v:N,kids:null};let mistakes=0,active=null;
+    box.appendChild(el('p','step-q','Tap a number with a dashed border to split it into two factors. Keep going until every branch ends in a prime number.'));
+    const area=el('div','tree-scroll');const form=el('div','split-form');form.hidden=true;box.append(area,form,fb);
+    const nodeEl=nd=>{
+      const w=el('div','tnode');const chip=el('button','tchip',String(nd.v));
+      if(nd.kids){chip.disabled=true;chip.classList.add('split');w.appendChild(chip);const k=el('div','tkids');nd.kids.forEach(c=>k.appendChild(nodeEl(c)));w.appendChild(k);}
+      else if(isPrime(nd.v)){chip.disabled=true;chip.classList.add('prime');chip.setAttribute('aria-label',nd.v+', a prime number');w.appendChild(chip);}
+      else{chip.classList.add('open');if(active===nd)chip.classList.add('active');chip.setAttribute('aria-label','Split '+nd.v);chip.onclick=()=>openForm(nd);w.appendChild(chip);}
+      return w;};
+    const draw=()=>{area.innerHTML='';const inner=el('div','tree-inner');inner.appendChild(nodeEl(root));area.appendChild(inner);};
+    const openForm=nd=>{
+      active=nd;draw();form.hidden=false;form.innerHTML='';
+      const a=el('input');const b=el('input');[a,b].forEach((x,i)=>{x.type='text';x.inputMode='numeric';x.autocomplete='off';x.id='sp'+(++uid);x.setAttribute('aria-label',i?'Second factor':'First factor');});
+      const go=el('button','btn primary','Split');
+      form.append(el('span',null,'Split <b>'+nd.v+'</b>:'),a,el('span',null,'×'),b,el('span',null,'= '+nd.v),go);
+      const submit=()=>{
+        const x=parseNum(a.value),y=parseNum(b.value);
+        if(isNaN(x)||isNaN(y)){show('note','Type a whole number in each box.');return;}
+        if(x===1||y===1){mistakes++;show('bad','Splitting into 1 × '+nd.v+' does not help, because '+nd.v+' is still there. Use two numbers that are both bigger than 1.');return;}
+        if(x*y!==nd.v){mistakes++;show('bad',x+' × '+y+' = '+(x*y)+', not '+nd.v+'. Choose two numbers that multiply to give '+nd.v+'.');return;}
+        nd.kids=[{v:x,kids:null},{v:y,kids:null}];active=null;form.hidden=true;draw();
+        const ls=treeLeaves(root);const comps=ls.filter(v=>!isPrime(v));
+        if(!comps.length){const ps=ls.slice().sort((p,q)=>p-q);
+          show('good','<b>Tree finished.</b> Every branch ends in a prime number. So <b>'+N+' = '+ps.join(' × ')+'</b><p class="small">In index form, you can write this as '+indexForm(ps)+'.</p>'+(mistakes?'':'<p>No mistakes. Well done.</p>'));done(mistakes===0);}
+        else show('note','Good: '+nd.v+' = '+x+' × '+y+'. '+(comps.length===1?comps[0]+' is not prime yet, so split it.':comps.join(' and ')+' are not prime yet, so split them.'));
+      };
+      go.onclick=submit;[a,b].forEach(x=>x.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submit();}}));
+      try{a.focus({preventScroll:true});}catch(e){}
+    };
+    draw();
+  }
+  return box;
+}
+
+const app=typeof document!=='undefined'?document.getElementById('app'):null;
+let S=null;
+const today=()=>new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+function home(){
+  S=null;app.innerHTML='';const col=el('div','col gutter');app.appendChild(col);
+  col.appendChild(el('section','howto','<h2>How to use this</h2><ol><li>Pick a topic, or choose Mixed practice.</li><li>Answer each step. Write your working in your exercise book as you go, just like on the quiz.</li><li>If you get something wrong, read the explanation carefully, then try again.</li></ol><p class="small">Stuck? Every question has a "Remind me how this works" box with a worked example.</p>'));
+  if(!storageOK)col.appendChild(el('p','warn','This page cannot remember your progress after you close it. Try to finish your topics in one visit, or open the Study Lab from its own link instead.'));
+  col.appendChild(ticketStrip());
+  const mx=el('button','mixed','<span class="sym">10</span><h3>Mixed practice</h3><p>Ten questions from every topic, mixed together, like the real quiz.</p>');
+  const mb=store.get('mixed');if(mb)mx.querySelector('p').innerHTML+=' <b>Your best: '+mb.s+' out of '+mb.n+'.</b>';
+  mx.onclick=()=>start('mixed');col.appendChild(mx);
+  col.appendChild(el('p','section-label','Practise one topic'));
+  const g=el('div','grid');col.appendChild(g);
+  TOPICS.forEach(T=>{
+    const c=el('button','card tint'+T.tint,'<span class="sym">'+T.sym+'</span><h3>'+T.name+'</h3><p>'+T.blurb+'</p>');
+    const b=store.get(T.id);if(b)c.appendChild(el('span','best','Done. Your best: '+b.s+' out of '+b.n));
+    c.onclick=()=>start(T.id);g.appendChild(c);
+  });
+  col.appendChild(el('p','motto','<i>Nous ne sommes pas impuissants.</i> We are not helpless.'));
+}
+
+function ticketStrip(){
+  const n=doneTopics().length,total=TOPICS.length;
+  const w=el('section','ticket-strip');
+  w.appendChild(el('h2',null,'Your ticket for '+TEACHER_NAME));
+  const segs=el('div','segs');segs.setAttribute('aria-label',n+' of '+total+' topics finished');TOPICS.forEach(T=>segs.appendChild(el('span',store.get(T.id)?'on':'')));w.appendChild(segs);
+  if(!ticketsOpen()){
+    w.appendChild(el('p',null,'Tickets closed at '+TICKET_CLOSES_TEXT+'. You can still practise any topic.'));
+  }else if(n<total){
+    w.appendChild(el('p',null,'Finish all '+total+' topics to get your ticket. You have finished <b>'+n+' of '+total+'</b>. Tickets close at '+TICKET_CLOSES_TEXT+'.'));
+    const left=TOPICS.filter(T=>!store.get(T.id)).map(T=>T.name);
+    if(n)w.appendChild(el('p','todo','Still to do: '+left.join(', ')+'.'));
+  }else{
+    w.appendChild(el('p',null,'You have finished all '+total+' topics. Well done!'));
+  }
+  const row=el('div','btns');row.style.justifyContent='flex-start';
+  if(n===total){const b=el('button','btn '+(ticketsOpen()?'primary':'secondary'),ticketsOpen()?'Get my ticket':'View my ticket');b.onclick=ticketScreen;row.appendChild(b);}
+  else if(n){const b=el('button','btn secondary','See my badge');b.onclick=progressBadge;row.appendChild(b);}
+  if(row.children.length)w.appendChild(row);
+  return w;
+}
+
+function start(id){S={id,qs:makeRound(id),i:0,score:0,res:[]};showQ();window.scrollTo(0,0);}
+
+function showQ(){
+  app.innerHTML='';const col=el('div','col gutter');app.appendChild(col);
+  const q=S.qs[S.i];const T=TOPIC_BY_ID[q.topic];
+  const top=el('div','topbar');const back=el('button','back','← All topics');back.onclick=home;
+  const dots=el('div','dots');dots.setAttribute('aria-label','Question '+(S.i+1)+' of '+S.qs.length);
+  S.qs.forEach((_,i)=>dots.appendChild(el('span','dot'+(i<S.i?(S.res[i]?' ok':' miss'):i===S.i?' now':''))));
+  top.append(back,dots);col.appendChild(top);
+  col.appendChild(el('div','qhead tint'+T.tint,'<span class="ticon sym">'+T.sym+'</span><div class="qtext"><span class="count">'+(S.id==='mixed'?'Mixed practice · ':'')+'Question '+(S.i+1)+' of '+S.qs.length+'</span><h2>'+T.name+'</h2></div>'));
+  const rem=el('details','remind','<summary>Remind me how this works</summary><div class="remind-body">'+T.remind()+'</div>');if(S.i===0)rem.open=true;col.appendChild(rem);
+  const card=el('section','qcard');col.appendChild(card);
+  card.appendChild(el('div','prompt',q.prompt));
+  const stepsHost=el('div');stepsHost.style.display='grid';stepsHost.style.gap='14px';card.appendChild(stepsHost);
+  let k=0,allFirst=true;
+  const next=()=>{
+    if(k>=q.steps.length){
+      S.res[S.i]=allFirst;if(allFirst)S.score++;
+      const row=el('div','next-row');const last=S.i===S.qs.length-1;
+      const b=el('button','btn primary',last?'See my results':'Next question →');
+      b.onclick=()=>{if(last)results();else{S.i++;showQ();window.scrollTo(0,0);}};
+      row.appendChild(b);card.appendChild(row);scrollTo(row);return;}
+    const st=q.steps[k++];runStep(st,stepsHost,first=>{if(!first)allFirst=false;next();});
+  };
+  next();
+}
+
+function results(){
+  app.innerHTML='';const col=el('div','col gutter');app.appendChild(col);
+  const n=S.qs.length,s=S.score,id=S.id;
+  const name=id==='mixed'?'Mixed practice':TOPIC_BY_ID[id].name;
+  const before=allDone();
+  const prev=store.get(id);if(!prev||s/n>prev.s/prev.n)store.set(id,{s,n});
+  const justFinished=!before&&allDone();
+  const msg=s===n?'Excellent work. You got every question right the first time.':s>=n/2?'Good work. Have another go with new numbers to make it stronger.':'Keep going. Read the explanations, then practise again with new numbers. Every mistake shows you what to fix.';
+  const r=el('section','result','<p class="section-label">'+name+'</p><p class="score">'+s+' / '+n+'</p><p>right the first time</p><p>'+msg+'</p>');
+  const btns=el('div','btns');const again=el('button','btn primary','Practise again with new numbers');again.onclick=()=>start(id);
+  const back=el('button','btn secondary','Choose another topic');back.onclick=home;btns.append(again,back);r.appendChild(btns);col.appendChild(r);
+  if(allDone()&&ticketsOpen()){const c=el('section','callout','<h2>'+(justFinished?'You have finished all '+TOPICS.length+' topics!':'Your ticket is ready')+'</h2><p>Get your ticket and send it to '+TEACHER_NAME+'.</p>');const b=el('button','btn primary','Get my ticket');b.onclick=ticketScreen;c.appendChild(b);col.appendChild(c);}
+  col.appendChild(badgePanel({title:'Completed: '+name,lines:[s+' out of '+n+' right the first time'],msgTopic:name+' ('+s+' out of '+n+' right the first time)'}));
+  window.scrollTo(0,0);
+}
+
+function progressBadge(){
+  app.innerHTML='';const col=el('div','col gutter');app.appendChild(col);
+  const top=el('div','topbar');const back=el('button','back','← All topics');back.onclick=home;top.appendChild(back);col.appendChild(top);
+  const lines=[];const parts=[];
+  TOPICS.concat([{id:'mixed',name:'Mixed practice'}]).forEach(T=>{const b=store.get(T.id);if(b){lines.push('✓ '+T.name+': best '+b.s+' out of '+b.n);parts.push(T.name+' (best '+b.s+'/'+b.n+')');}});
+  const total=TOPICS.filter(T=>store.get(T.id)).length;
+  const left=TOPICS.filter(T=>!store.get(T.id)).map(T=>T.name);
+  if(left.length)col.appendChild(el('p','warn','To get your ticket, finish these topics too: '+left.join(', ')+'.'));
+  col.appendChild(badgePanel({title:total===TOPICS.length?'Completed all '+TOPICS.length+' topics':'Topics finished: '+total+' of '+TOPICS.length,lines,msgTopic:parts.join(', ')}));
+  window.scrollTo(0,0);
+}
+
+/* The ticket: shown when all 9 topics are finished. The Form is the main way in; the backups always show. */
+function ticketScreen(){
+  if(!allDone()){progressBadge();return;}
+  app.innerHTML='';const col=el('div','col gutter');app.appendChild(col);
+  const top=el('div','topbar');const back=el('button','back','← All topics');back.onclick=home;top.appendChild(back);col.appendChild(top);
+  const p=el('section','badge-panel');col.appendChild(p);
+  p.appendChild(el('h2',null,'Your Study Lab ticket'));
+  const open=ticketsOpen();
+  if(!open)p.appendChild(el('p','warn','Tickets closed at '+TICKET_CLOSES_TEXT+'. You can still practise, but tickets cannot be handed in any more.'));
+  else p.appendChild(el('p','small','Type your name exactly as your teacher knows it, and choose your class. Your code is made from them.'));
+  const f=el('div','fields','<div class="field"><label for="badge-name">Your full name</label><input id="badge-name" type="text" autocomplete="name" placeholder="First and last name"></div><div class="field"><label for="badge-class">Class</label><select id="badge-class"><option value="">Choose</option>'+CLASSES.map(c=>'<option>'+c+'</option>').join('')+'</select></div>');
+  p.appendChild(f);
+  const nameIn=f.querySelector('#badge-name'),clsIn=f.querySelector('#badge-class');
+  nameIn.value=store.get('name')||'';clsIn.value=store.get('class')||'';
+  const card=el('div','badge');p.appendChild(card);
+  const date=today();
+  const scoreLines=()=>{const L=[];for(let i=0;i<TOPICS.length;i+=2)L.push(TOPICS.slice(i,i+2).map(T=>{const b=store.get(T.id);return T.name+' '+b.s+'/'+b.n;}).join(' · '));return L;};
+  const ready=()=>nameIn.value.trim().length>1&&clsIn.value;
+  const code=()=>ready()?ticketCode(nameIn.value.trim(),clsIn.value):'';
+  const draw=()=>{
+    card.innerHTML='<div class="badge-top"><b>Whole Numbers <span>Study Lab</span></b><small>Ticket · Form 1 Mathematics · Quiz 1 revision</small></div>'+
+      '<div class="badge-body"><div class="seal" aria-hidden="true">✓</div><div><p class="b-name"></p><p class="b-meta"></p><p class="b-title">Completed all '+TOPICS.length+' topics</p><p class="small">Completion code</p><p class="tcode"></p><div class="b-lines small"></div></div></div>';
+    card.querySelector('.b-name').textContent=nameIn.value.trim()||'Your name';
+    card.querySelector('.b-meta').textContent=(clsIn.value?clsIn.value+' · ':'')+date;
+    card.querySelector('.tcode').textContent=code()||'Type your name and class';
+    const bl=card.querySelector('.b-lines');scoreLines().forEach(l=>{const q=document.createElement('p');q.textContent=l;bl.appendChild(q);});
+  };
+  const note=el('div','fb note');note.hidden=true;
+  const say=h=>{note.hidden=false;note.innerHTML=h;scrollTo(note);};
+  const message=()=>TEACHER_NAME+', this is '+(nameIn.value.trim()||'[your name]')+(clsIn.value?' from '+clsIn.value:'')+'. I finished all '+TOPICS.length+' topics in the Whole Numbers Study Lab. My completion code is '+(code()||'[code]')+'. ('+date+')';
+  const needDetails=()=>{if(!ready()){say('Type your full name and choose your class first.');(nameIn.value.trim()?clsIn:nameIn).focus();return true;}return false;};
+  const acts=el('div','badge-actions');p.appendChild(acts);
+  const row=el('div','btns');row.style.justifyContent='flex-start';acts.appendChild(row);
+  let submit=null;
+  if(open&&FORM_URL){
+    submit=el('a','btn primary','Submit my ticket');submit.target='_blank';submit.rel='noopener';submit.href=FORM_URL;row.appendChild(submit);
+    submit.addEventListener('click',e=>{if(needDetails()){e.preventDefault();return;}submit.href=formLink(nameIn.value.trim(),clsIn.value,code());
+      say('The form should open in a new tab with your details filled in. Press <b>Submit</b> on the form. When you see <b>"Your response has been recorded"</b>, you are done.<p>If the form did not open, or you did not see that message, use one of the backup ways below.</p>');});
+  }
+  if(open&&!inFrame){
+    const share=el('button','btn secondary','Share or save my ticket');row.appendChild(share);
+    share.onclick=async()=>{
+      if(needDetails())return;
+      try{
+        const lines=['Completion code: '+code()].concat(scoreLines());
+        const blob=await badgeImage(nameIn.value.trim(),clsIn.value,date,{title:'Completed all '+TOPICS.length+' topics',lines});
+        const file=new File([blob],'study-lab-ticket.png',{type:'image/png'});
+        if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Study Lab ticket',text:message()});return;}
+        const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='study-lab-ticket.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+        say('Your ticket picture has been saved. You can send it to '+TEACHER_NAME+'.');
+      }catch(e){if(e&&e.name==='AbortError')return;say('That did not work on this phone. Take a screenshot of the ticket instead.');}
+    };
+  }
+  if(open){
+    const copy=el('button','btn secondary','Copy my code and message');row.appendChild(copy);
+    copy.onclick=async()=>{
+      if(needDetails())return;const t=message();
+      try{await navigator.clipboard.writeText(t);say('Copied. Paste it into a WhatsApp message or an email to '+TEACHER_NAME+'.');}
+      catch(e){say('Copy this message and send it to '+TEACHER_NAME+':');const ta=el('textarea','copybox');ta.id='copybox'+(++uid);ta.readOnly=true;ta.value=t;note.appendChild(ta);ta.focus();ta.select();}
+    };
+    acts.appendChild(note);
+    if(!FORM_URL)acts.appendChild(el('p','small',TEACHER_NAME+' will tell you how to hand in your ticket. Until then, use one of the ways below.'));
+    const mail=el('p','email-line');acts.appendChild(mail);
+    const updateMail=()=>{mail.innerHTML='Email: <span class="addr">'+TEACHER_EMAIL+'</span> · <a target="_blank" rel="noopener" href="mailto:'+TEACHER_EMAIL+'?subject='+encodeURIComponent('Study Lab ticket: '+(nameIn.value.trim()||'Form 1'))+'&body='+encodeURIComponent(message())+'">Open an email</a>';};
+    updateMail();
+    const bk=el('div','backup','<b>If the form does not work, do any one of these:</b><ol><li>Press "Copy my code and message", then send it to '+TEACHER_NAME+' on WhatsApp or by email.</li><li>Write your completion code in your exercise book and show '+TEACHER_NAME+' in class.</li><li>Take a screenshot of your ticket and send it.</li></ol><p class="small">Your code only works with your own name and class, so giving it to someone else will not help them.</p>');
+    acts.appendChild(bk);
+    const save=()=>{store.set('name',nameIn.value.trim());store.set('class',clsIn.value);draw();updateMail();};
+    nameIn.addEventListener('input',save);clsIn.addEventListener('change',save);
+  }else{
+    nameIn.addEventListener('input',draw);clsIn.addEventListener('change',draw);
+  }
+  draw();window.scrollTo(0,0);
+}
+
+/* The badge: a picture the student can share or screenshot, and a message they can copy. */
+function badgePanel(info){
+  const p=el('section','badge-panel');
+  p.appendChild(el('h2',null,'Send '+TEACHER_NAME+' your badge'));
+  p.appendChild(el('p','small','This is up to you. Type your name and class, and the badge will show them.'));
+  const f=el('div','fields','<div class="field"><label for="badge-name">Your name</label><input id="badge-name" type="text" autocomplete="name" placeholder="First and last name"></div><div class="field"><label for="badge-class">Class</label><select id="badge-class"><option value="">Choose</option>'+CLASSES.map(c=>'<option>'+c+'</option>').join('')+'</select></div>');
+  p.appendChild(f);
+  const nameIn=f.querySelector('#badge-name'),clsIn=f.querySelector('#badge-class');
+  nameIn.value=store.get('name')||'';clsIn.value=store.get('class')||'';
+  const badge=el('div','badge');p.appendChild(badge);
+  const date=today();
+  const draw=()=>{const nm=nameIn.value.trim()||'Your name';const cl=clsIn.value;
+    badge.innerHTML='<div class="badge-top"><b>Whole Numbers <span>Study Lab</span></b><small>Form 1 Mathematics · Quiz 1 revision</small></div>'+
+      '<div class="badge-body"><div class="seal" aria-hidden="true">✓</div><div><p class="b-name"></p><p class="b-meta"></p><p class="b-title"></p><div class="b-lines"></div></div></div>';
+    badge.querySelector('.b-name').textContent=nm;badge.querySelector('.b-meta').textContent=(cl?cl+' · ':'')+date;
+    badge.querySelector('.b-title').textContent=info.title;
+    const bl=badge.querySelector('.b-lines');info.lines.forEach(l=>{const q=document.createElement('p');q.textContent=l;bl.appendChild(q);});};
+  const save=()=>{store.set('name',nameIn.value.trim());store.set('class',clsIn.value);draw();updateMail();};
+  nameIn.addEventListener('input',save);clsIn.addEventListener('change',save);
+  const acts=el('div','badge-actions');p.appendChild(acts);
+  const note=el('div','fb note');note.hidden=true;
+  const message=()=>TEACHER_NAME+', this is '+(nameIn.value.trim()||'[your name]')+(clsIn.value?' from '+clsIn.value:'')+'. In the Whole Numbers Study Lab I finished: '+info.msgTopic+'. ('+date+')';
+  const needName=()=>{if(!nameIn.value.trim()){note.hidden=false;note.innerHTML='Type your name first, so '+TEACHER_NAME+' knows who it is from.';nameIn.focus();return true;}return false;};
+  const row=el('div','btns');row.style.justifyContent='flex-start';acts.appendChild(row);
+  if(!inFrame){
+    const share=el('button','btn primary','Share or save my badge');row.appendChild(share);
+    share.onclick=async()=>{
+      if(needName())return;note.hidden=true;
+      try{
+        const blob=await badgeImage(nameIn.value.trim(),clsIn.value,date,info);
+        const file=new File([blob],'study-lab-badge.png',{type:'image/png'});
+        if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Study Lab badge',text:message()});return;}
+        const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='study-lab-badge.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+        note.hidden=false;note.innerHTML='Your badge picture has been saved. You can send it to '+TEACHER_NAME+'.';
+      }catch(e){if(e&&e.name==='AbortError')return;note.hidden=false;note.innerHTML='That did not work on this phone. Take a screenshot of the badge instead and send that.';}
+    };
+  }
+  const copy=el('button','btn secondary','Copy a message for '+TEACHER_NAME);row.appendChild(copy);
+  copy.onclick=async()=>{
+    if(needName())return;const t=message();
+    try{await navigator.clipboard.writeText(t);note.hidden=false;note.innerHTML='Copied. You can paste it into a message or an email to '+TEACHER_NAME+'.';}
+    catch(e){note.hidden=false;note.innerHTML='Copy this message and send it to '+TEACHER_NAME+':';const ta=el('textarea','copybox');ta.id='copybox'+(++uid);ta.readOnly=true;ta.value=t;note.appendChild(ta);ta.focus();ta.select();}
+  };
+  const mail=el('p','email-line');acts.appendChild(mail);
+  const updateMail=()=>{mail.innerHTML='Email: <span class="addr">'+TEACHER_EMAIL+'</span> · <a target="_blank" rel="noopener" href="mailto:'+TEACHER_EMAIL+'?subject='+encodeURIComponent('Study Lab badge: '+(nameIn.value.trim()||'Form 1'))+'&body='+encodeURIComponent(message())+'">Open an email</a>';};
+  acts.appendChild(note);
+  acts.appendChild(el('p','small','You can also take a screenshot of the badge and send the picture.'));
+  draw();updateMail();
+  return p;
+}
+function badgeImage(name,cls,date,info){
+  return (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>new Promise((res,rej)=>{
+    const W=1000,lineH=44,H=470+Math.max(0,info.lines.length-1)*lineH;
+    const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+    x.fillStyle='#F2F6F8';x.fillRect(0,0,W,H);
+    x.fillStyle='#0C3B52';x.fillRect(0,0,W,150);
+    x.fillStyle='#F4FAFC';x.font='800 50px "Bricolage Grotesque", sans-serif';x.fillText('Whole Numbers ',48,78);
+    const w1=x.measureText('Whole Numbers ').width;x.fillStyle='#F0A020';x.fillText('Study Lab',48+w1,78);
+    x.fillStyle='#A8C8D6';x.font='500 24px Lexend, sans-serif';x.fillText('Form 1 Mathematics · Quiz 1 revision · '+TEACHER_NAME,48,118);
+    x.fillStyle='#F0A020';x.beginPath();x.arc(140,290,78,0,Math.PI*2);x.fill();
+    x.strokeStyle='#F0A020';x.lineWidth=5;x.beginPath();x.arc(140,290,92,0,Math.PI*2);x.stroke();
+    x.strokeStyle='#2A1A00';x.lineWidth=16;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(104,292);x.lineTo(130,320);x.lineTo(180,260);x.stroke();
+    let y=225;x.textBaseline='alphabetic';
+    x.fillStyle='#152A38';x.font='800 46px "Bricolage Grotesque", sans-serif';x.fillText(name,268,y);y+=40;
+    x.fillStyle='#526676';x.font='400 26px Lexend, sans-serif';x.fillText((cls?cls+' · ':'')+date,268,y);y+=52;
+    x.fillStyle='#152A38';x.font='600 30px Lexend, sans-serif';x.fillText(info.title,268,y);y+=46;
+    x.font='400 26px Lexend, sans-serif';info.lines.forEach(l=>{x.fillText(l,268,y);y+=lineH;});
+    x.fillStyle='#526676';x.font='italic 400 22px Lexend, sans-serif';x.fillText('Nous ne sommes pas impuissants.',48,H-30);
+    c.toBlob(b=>b?res(b):rej(new Error('no image')),'image/png');
+  }));
+}
+
+/* ---------- teacher view: every topic, sample questions with answers and feedback, no playing needed ---------- */
+function staticStep(st){
+  const w=el('div','t-step');
+  if(st.type==='tree'){const T=autoTree(st.n);const ps=treeLeaves(T).sort((a,b)=>a-b);
+    w.innerHTML='<p class="step-q">Student builds a factor tree by tapping and splitting. One correct tree:</p>'+treeHTML(T)+'<div class="ans"><b>Answer:</b> '+st.n+' = '+ps.join(' × ')+' &nbsp;('+indexForm(ps)+')</div><p class="small">Any first split is accepted. Splitting into 1 × n, or a pair that does not multiply to the number, is rejected with feedback.</p>';return w;}
+  if(st.label)w.appendChild(el('p','step-q',st.label));
+  if(st.type==='input')w.appendChild(el('div','ans','<b>Answer:</b> '+(st.answerText||fmt(st.answer))+(st.check&&!st.list?' <span class="small">(any correct answer is accepted)</span>':'')));
+  if(st.type==='choice')st.options.forEach(o=>w.appendChild(el('div','opt'+(o.correct?' ok':''),(o.correct?'✓ ':'✗ ')+o.text+(o.why&&!o.correct?'<span class="why">Feedback if chosen: '+o.why+'</span>':''))));
+  if(st.type==='multi'){w.appendChild(el('div','ans','<b>Correct tiles:</b> '+st.tiles.filter(t=>t.correct).map(t=>t.v).join(', ')));
+    const wrongs=st.tiles.filter(t=>!t.correct);if(wrongs.length)w.appendChild(el('div','explain','<p class="small">Distractors and their feedback:</p><ul>'+wrongs.map(t=>'<li>'+t.whyWrong+'</li>').join('')+'</ul>'));}
+  if(st.type==='circle'){const common=st.rows[0].vals.filter(v=>st.rows.every(r=>r.vals.includes(v)));
+    w.appendChild(el('div','explain',st.rows.map(r=>listLine(r.label+':',r.vals,common)).join('')));
+    w.appendChild(el('div','ans','<b>Circle:</b> '+common.join(', ')));}
+  if(st.explain)w.appendChild(el('div','explain','<p class="small">Explanation shown to the student:</p>'+st.explain));
+  return w;
+}
+function staticQ(q,tag){
+  const c=el('div','t-q');c.appendChild(el('p','tag',tag));c.appendChild(el('div','prompt',q.prompt));
+  q.steps.forEach(st=>c.appendChild(staticStep(st)));return c;
+}
+function ticketChecker(){
+  const w=el('section','teacher-bar');
+  w.innerHTML='<h2>Check tickets</h2><p>Tickets '+(ticketsOpen()?'close':'closed')+' at '+TICKET_CLOSES_TEXT+'. A code is valid only for the name and class it was made with. Capital letters, spaces and dashes do not matter.</p>'+
+   (FORM_URL?'<p><a class="btn secondary" id="t-test" target="_blank" rel="noopener" href="#">Send a test ticket to the Form</a></p><p class="small">This opens the Form filled in with a test student, the way a real ticket would. Submit it, check it arrives in your responses, then delete it.</p>':'<p class="small">The Google Form is not connected yet, so students will use the backup ways for now.</p>')+
+   '<p><b>Check one ticket</b> (for example, a code a student showed you)</p>'+
+   '<div class="fields"><div class="field"><label for="t-name">Student name</label><input id="t-name" type="text"></div><div class="field"><label for="t-class">Class</label><select id="t-class">'+CLASSES.map(c=>'<option>'+c+'</option>').join('')+'</select></div></div>'+
+   '<div class="answer-row"><input id="t-code" type="text" placeholder="Code, e.g. ABC-234" aria-label="Completion code"><button class="btn primary" id="t-check">Check</button></div><div id="t-res" class="fb note" hidden></div>'+
+   '<p><b>Check many at once</b></p><p class="small">Open the Form responses in Google Sheets. Select the rows from the Timestamp column across to the Completion code column, copy, and paste them here. You can also type rows yourself: name, class and code, one student per line, with commas between.</p>'+
+   '<textarea class="bulk" id="t-bulk" placeholder="21/10/2026 19:02:11	Kezia Mohammed	1B	ABC-234"></textarea><div class="btns" style="justify-content:flex-start"><button class="btn primary" id="t-bulk-go">Check all</button></div><div id="t-bulk-res"></div>';
+  const $=id=>w.querySelector('#'+id);
+  if($('t-test')){const tn='TEST Mr Legall';const q=['usp=pp_url'];const add=(k,v)=>{if(k)q.push(encodeURIComponent(k)+'='+encodeURIComponent(v));};add(FORM_FIELDS.name,tn);add(FORM_FIELDS.cls,'1A');add(FORM_FIELDS.code,ticketCode(tn,'1A'));add(FORM_FIELDS.topics,'Test ticket from the teacher view');$('t-test').href=FORM_URL+'?'+q.join('&');}
+  $('t-check').onclick=()=>{const r=checkTicket($('t-name').value,$('t-class').value,$('t-code').value);const box=$('t-res');box.hidden=false;
+    box.className='fb '+(r.ok?'good':'bad');box.innerHTML=r.ok?'<b>Valid.</b>'+(r.classMismatch?' The code was made for class '+r.cls+', not the class chosen here.':'')+(ticketsOpen()?'':' Note: tickets have closed.'):'<b>Not valid.</b> Check the spelling of the name and the class. The name must match what the student typed on their ticket.';};
+  $('t-bulk-go').onclick=()=>{
+    const out=$('t-bulk-res');out.innerHTML='';
+    const lines=$('t-bulk').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+    const rows=[];const seen={};const counts={};CLASSES.forEach(c=>counts[c]=0);
+    lines.forEach(l=>{
+      let cells=l.includes('\t')?l.split('\t'):l.split(',');cells=cells.map(c=>c.trim());
+      if(/timestamp|full name|completion code/i.test(l))return;
+      let stamp=null;if(cells.length>=4&&parseStamp(cells[0])){stamp=parseStamp(cells[0]);cells=cells.slice(1);}
+      const [name,cls,code]=cells;if(!name)return;
+      const r=checkTicket(name,cls,code);const late=stamp&&stamp.getTime()>=TICKET_CLOSES.getTime();
+      const key=normName(name)+'|'+(r.cls||cls);
+      if(r.ok&&!late&&!seen[key]){seen[key]=1;if(counts[r.cls]!==undefined)counts[r.cls]++;}
+      rows.push({name,cls:cls||'',code:code||'',ok:r.ok,mis:r.classMismatch?r.cls:'',late,dup:r.ok&&seen[key]&&rows.some(x=>x.ok&&normName(x.name)===normName(name))});
+    });
+    if(!rows.length){out.appendChild(el('p','small','No rows found. Paste rows with a name, a class and a code.'));return;}
+    out.appendChild(el('p','chk-sum','Valid tickets on time: '+CLASSES.map(c=>c+': '+counts[c]).join(' · ')));
+    const wrap=el('div','chk-wrap');const t=el('table','chk-table');t.innerHTML='<thead><tr><th>Name</th><th>Class</th><th>Code</th><th>Result</th></tr></thead>';const tb=document.createElement('tbody');
+    rows.forEach(r=>{const tr=document.createElement('tr');[r.name,r.cls,r.code].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});
+      const td=document.createElement('td');td.className=r.ok&&!r.late?'ok':'no';
+      td.textContent=r.ok?('Valid'+(r.mis?' (code is for '+r.mis+')':'')+(r.late?', but sent after the deadline':'')+(r.dup?' · repeat':'')):'Not valid';tr.appendChild(td);tb.appendChild(tr);});
+    t.appendChild(tb);wrap.appendChild(t);out.appendChild(wrap);
+  };
+  return w;
+}
+function teacherView(){
+  S=null;app.innerHTML='';const col=el('div','col gutter');app.appendChild(col);
+  const bar=el('section','teacher-bar','<h2>Teacher view</h2><p>Every topic with its worked examples and sample questions, showing the answers and the feedback a student would see. Numbers are random, so press "New samples" to see more.</p>');
+  const btns=el('div','btns');btns.style.justifyContent='flex-start';
+  const more=el('button','btn primary','New samples');more.onclick=()=>{teacherView();};
+  const out=el('button','btn secondary','Back to student view');out.onclick=()=>{try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}home();window.scrollTo(0,0);};
+  btns.append(more,out);bar.appendChild(btns);
+  const chips=el('div','chips');TOPICS.forEach(T=>{const a=el('a','chip',T.name);a.href='#t-'+T.id;a.onclick=e=>{e.preventDefault();const t=document.getElementById('t-'+T.id);if(t)t.scrollIntoView();};chips.appendChild(a);});bar.appendChild(chips);
+  col.appendChild(bar);
+  col.appendChild(ticketChecker());
+  TOPICS.forEach(T=>{
+    const sec=el('section','t-topic');sec.id='t-'+T.id;sec.appendChild(el('div','qhead tint'+T.tint,'<span class="ticon sym">'+T.sym+'</span><h2>'+T.name+'</h2>'));
+    sec.appendChild(el('details','remind','<summary>"Remind me how this works" (what students see)</summary><div class="remind-body">'+T.remind()+'</div>'));
+    if(T.id==='fault')FAULTS.forEach((F,i)=>sec.appendChild(staticQ(faultQ(F),'Item '+(i+1)+' of '+FAULTS.length)));
+    else{const gens=[...new Set(T.gens)];gens.forEach((g,i)=>{sec.appendChild(staticQ(g(),'Sample '+(i+1)));});
+      if(T.id==='hcf')sec.appendChild(el('p','small','The HCF/LCM word problems use a bank of '+SCEN.length+' scenarios.'));}
+    col.appendChild(sec);
+  });
+  window.scrollTo(0,0);
+}
+
+if(app){
+  let taps=[];
+  const title=document.getElementById('title');
+  if(title)title.addEventListener('click',()=>{const now=Date.now();taps=taps.filter(t=>now-t<3000);taps.push(now);if(taps.length>=5){taps=[];teacherView();}});
+  if(location.hash==='#teacher')teacherView();else home();
+  window.addEventListener('hashchange',()=>{if(location.hash==='#teacher')teacherView();});
+}
+</script>
+
+</body>
+</html>
